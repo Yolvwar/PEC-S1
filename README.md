@@ -1,11 +1,49 @@
-
 # PEC-S1
 
-Le projet demande que tous les commits soient signés. Vous pouvez passer par une signature avec une **clé SSH** si vous avez déjà fait une configuration auparavant. Cependant, si vous n'avez jamais configuré votre signature de commit,vous pouvez suivre cette méthode plutot simple avec **GPG**.
+**Collaborateurs du projet :**
+
+- MALLET YOANN, compte associé = [Yolvwar]
+- CHAMEN Sohane, compte associé = []
+- MBOSSA Jonathan, compte associé = []
+
+
+## Sommaire
+
+1. [Convention de commits du projet : atomic commit](#convention-de-commits--commits-atomiques)
+2. [Commits Autosignés avec GPG](#commits-autosignés-avec-gpg)
+
 
 ---
 
+## Convention de commits : Commits Atomiques
+
+Pour qu'on s'y retrouve tous et que le repo soit lisible et simple a travailler avec on va faire des **commit atomique**
+
+Voici quelques exemples de commits récurrents :
+
+- **`feat(exemple):`** Ajouter une nouvelle fonctionnalité.  
+  _Exemple :_
+  ```
+  feat(auth): Add login functionality with password encrypt
+  ```
+
+- **`fix(exemple):`** Corriger un bug.  
+  _Exemple :_
+  ```
+  fix(auth): Resolve login expiration issue
+  ```
+
+- **`docs(exemple):`** Mettre à jour la documentation.  
+  _Exemple :_
+  ```
+  docs(README): Update GPG commit configuration guide
+  ```
+
+**Soyez clair et concis**. Un bon message de commit décrit ce qui a été fait et pourquoi cela a été fait.
+
 ## Commits Autosignés avec GPG
+
+Le projet demande que tous les commits soient signés. Vous pouvez passer par une signature avec une **clé SSH** si vous avez déjà fait une configuration auparavant. Cependant, si vous n'avez jamais configuré votre signature de commit,vous pouvez suivre cette méthode plutot simple avec **GPG**.
 
 ### 1. **Installer GPG**
 Assurez-vous que GPG est installé sur votre machine. Sous Linux, vous pouvez l'installer avec :
