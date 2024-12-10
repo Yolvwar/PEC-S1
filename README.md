@@ -11,7 +11,7 @@
 
 1. [Convention de commits du projet : atomic commit](#convention-de-commits--commits-atomiques)
 2. [Commits Autosignés avec GPG](#commits-autosignés-avec-gpg)
-
+3. [Accéder à la base de données via MySQL CLI](#accéder-à-la-base-de-données-via-mysql-cli)
 
 ---
 
@@ -43,7 +43,7 @@ Voici quelques exemples de commits récurrents :
 
 ## Commits Autosignés avec GPG
 
-Le projet demande que tous les commits soient signés. Vous pouvez passer par une signature avec une **clé SSH** si vous avez déjà fait une configuration auparavant. Cependant, si vous n'avez jamais configuré votre signature de commit,vous pouvez suivre cette méthode plutot simple avec **GPG**.
+Le projet demande que tous les commits soient signés. Vous pouvez passer par une signature avec une **clé SSH** si vous avez déjà fait une configuration auparavant. Cependant, si vous n'avez jamais configuré votre signature de commit, vous pouvez suivre cette méthode plutôt simple avec **GPG**.
 
 ### 1. **Installer GPG**
 Assurez-vous que GPG est installé sur votre machine. Sous Linux, vous pouvez l'installer avec :
@@ -111,4 +111,34 @@ Good "gpg" signature for {username}
 
 ---
 
+## Accéder à la base de données via MySQL CLI
+
+Pour interagir directement avec la base de données MySQL de l'application via la ligne de commande, suivez les étapes ci-dessous :
+
+### 1. **Se connecter au conteneur MySQL**
+Utilisez la commande suivante pour accéder au conteneur MySQL via Docker :
+```bash
+docker exec -it php-app-db mysql -u user -p
+```
+Vous serez invité à entrer le mot de passe. Tapez le mot de passe configuré dans le fichier `docker-compose.yml` (par défaut : `password`).
+
+### 2. **Sélectionner la base de données**
+Une fois connecté à MySQL, utilisez la commande suivante pour accéder à la base de données :
+```sql
+USE db;
+```
+
+### 3. **Vérifier les tables**
+Pour afficher les tables disponibles dans la base de données :
+```sql
+SHOW TABLES;
+```
+
+### 4. **Effectuer des requêtes SQL**
+Vous pouvez maintenant exécuter des requêtes SQL sur la base de données, par exemple :
+```sql
+SELECT * FROM users;
+```
+
+---
 
