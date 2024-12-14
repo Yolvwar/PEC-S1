@@ -1,0 +1,7 @@
+{
+  "host": "php-app-db",
+  "user": "user",
+  "password": "password",
+  "database": "db",
+  "port": 3306
+}
