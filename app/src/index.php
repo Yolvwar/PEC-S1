@@ -3,13 +3,22 @@
 require __DIR__ . '/Lib/Database/DatabaseConnexion.php';
 require __DIR__ . '/Lib/Database/Dsn.php';
 
-use App\Lib\Database\DatabaseConnexion;
+require_once __DIR__ . '/../vendor/autoload.php';
 
-try{
-  $dbConnexion = new DatabaseConnexion();
-  $dbConnexion->setConnexion();
-  $pdo = $dbConnexion->getConnexion();
-  echo "Connexion Test Réussie";
- }catch(PDOException $e){
-  echo "Connexion échouée: " . $e->getMessage();
- }
+?>
+<?php
+include_once 'views/header/index.php'
+?>
+
+<h1 id="index-text">Welcome, <?php if (isset($_SESSION['user_id'])) {
+                                echo explode(" ", $_SESSION['user_username'])[0];
+                              } else {
+                                echo 'Guest';
+                              }
+                              ?> </h1>
+
+
+<?php
+
+var_dump($_SESSION);
+?>
