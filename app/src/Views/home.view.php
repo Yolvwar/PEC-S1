@@ -1,7 +1,3 @@
-<?php
-session_start();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,18 +12,19 @@ session_start();
 <body>
   <nav>
     <ul>
-      <a href="index.php">
+      <a href="/home">
         <li>Home</li>
       </a>
+      <p>Welcome <?php if (isset($_SESSION['user_id'])) {echo explode(" ", $_SESSION['user_username'])[0];} else {echo 'Guest';} ?></p>
       <?php if (!isset($_SESSION['user_id'])) : ?>
-        <a href="signup.php">
+        <a href="register">
           <li>Sign Up</li>
         </a>
-        <a href="login.php">
+        <a href="login">
           <li>Login</li>
         </a>
       <?php else: ?>
-        <a href="./Controllers/AuthController.php?q=logout">
+        <a href="logout">
           <li>Logout</li>
         </a>
       <?php endif; ?>

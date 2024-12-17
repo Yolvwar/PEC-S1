@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Entities\User;
 
-require_once '../helpers/session_helper.php';
+require_once __DIR__ . '/../helpers/session_helper.php';
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 
@@ -33,32 +33,32 @@ class AuthController
     // Validation des données & vérification si champs vides
     if (empty($data['name']) || empty($data['email']) || empty($data['username']) || empty($data['password']) || empty($data['confirm_password'])) {
       flash("register", "Veuillez remplir tous les champs.");
-      redirect('../views/auth/register.php');
+      redirect('/register');
     }
 
     if (!preg_match("/^[a-zA-Z0-9]*$/", $data['username'])) {
       flash("register", "Nom d'utilisateur invalide.");
-      redirect('../views/auth/register.php');
+      redirect('/register');
     }
 
     if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
       flash("register", "Email invalide.");
-      redirect('../views/auth/register.php');
+      redirect('/register');
     }
 
     if (strlen($data['password']) < 6) {
       flash("register", "Le mot de passe doit contenir au moins 6 caractères.");
-      redirect('../views/auth/register.php');
+      redirect('/register');
     } else if ($data['password'] !== $data['confirm_password']) {
       flash("register", "Les mots de passe ne correspondent pas.");
-      redirect('../views/auth/register.php');
+      redirect('/register');
     }
 
     // Vérification si l'utilisateur existe déjà
 
     if ($this->user->findUserByEmailOrUsername($data['email'], $data['username'])) {
       flash("register", "Cet email ou ce nom d'utilisateur existe déjà.");
-      redirect('../views/auth/register.php');
+      redirect('/register');
     }
 
     // Hash du mot de passe
@@ -67,7 +67,7 @@ class AuthController
     // Enregistrement de l'utilisateur
     if ($this->user->registerUser($data)) {
       flash("register", "Inscription effectuée avec succès.");
-      redirect('../views/auth/login.php');
+      redirect('/login');
     } else {
       flash("register", "Une erreur s'est produite lors de l'inscription.");
     }
@@ -85,7 +85,7 @@ class AuthController
     // Vérification si champs vides
     if (empty($data['name/email']) || empty($data['password'])) {
       flash("login", "Veuillez remplir tous les champs.");
-      redirect('../views/auth/login.php');
+      redirect('/login');
       exit();
     }
 
@@ -100,11 +100,11 @@ class AuthController
         $this->createUserSession($loggedInUser);
       } else {
         flash("login", "Nom d'utilisateur ou mot de passe incorrect.");
-        redirect('../views/auth/login.php');
+        redirect('/login');
       }
     } else {
       flash("login", "Utilisateur non trouvé.");
-      redirect('../views/auth/login.php');
+      redirect('/login');
     }
   }
 
@@ -114,7 +114,7 @@ class AuthController
     $_SESSION['user_id'] = $user->id;
     $_SESSION['user_email'] = $user->email;
     $_SESSION['user_username'] = $user->username;
-    redirect('../views/index.php');
+    redirect('/home');
   }
 
   // Déconnexion de l'utilisateur et destruction de la session
@@ -124,7 +124,7 @@ class AuthController
     unset($_SESSION['user_email']);
     unset($_SESSION['user_username']);
     session_destroy();
-    redirect('../views/auth/login.php');
+    redirect('/login');
   }
 }
 
@@ -140,13 +140,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     case 'login':
       $init->login();
       break;
-  }
-} else {
-  switch ($_GET['q']) {
     case 'logout':
       $init->logout();
       break;
-    default:
-      redirect('../index.php');
-  }
+  } 
 }

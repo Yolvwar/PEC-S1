@@ -1,24 +1,21 @@
 <?php
 
+use App\Lib\Http\Request;
+use App\Lib\Http\Router;
+
 require __DIR__ . '/Lib/Database/DatabaseConnexion.php';
 require __DIR__ . '/Lib/Database/Dsn.php';
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-?>
-<?php
-include_once 'views/header/index.php'
-?>
+session_start();
 
-<h1 id="index-text">Welcome, <?php if (isset($_SESSION['user_id'])) {
-                                echo explode(" ", $_SESSION['user_username'])[0];
-                              } else {
-                                echo 'Guest';
-                              }
-                              ?> </h1>
+$request = new Request();
 
+$router = new Router();
 
-<?php
-
-var_dump($_SESSION);
-?>
+$response = $router->route($request);
+header($response->getHeadersAsString());
+http_response_code($response->getStatus());
+echo $response->getContent();
+exit();

@@ -1,9 +1,9 @@
 <?php
 // Si la session n'est pas démarrée, on la démarre
 
-if(session_status() == 0) {
+/*if(session_status() == 0) {
   session_start();
-}
+}*/
 
 function flash($name = '', $message = '', $class = 'altert alert-success') {
   if (!empty($name)) {
