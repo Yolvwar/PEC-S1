@@ -6,6 +6,14 @@ RUN apt-get install -y zlib1g-dev libwebp-dev libpng-dev && docker-php-ext-insta
 RUN apt-get install libzip-dev -y && docker-php-ext-install zip
 RUN docker-php-ext-install pdo pdo_mysql
 
+
+# Node.js et npm
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+RUN apt-get install -y nodejs
+ # Sass
+RUN npm install -g sass
+    
+
 # Composer
 #COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
