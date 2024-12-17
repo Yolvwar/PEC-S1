@@ -3,4 +3,4 @@
 /app/vendor/*
 /mysql/*
 !/mysql/.gitkeep
-/node_modules/*
+/node_modules
