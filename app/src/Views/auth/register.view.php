@@ -1,12 +1,12 @@
 <?php
-include_once '../../helpers/session_helper.php';
+include_once __DIR__ . '/../../helpers/session_helper.php';
 ?>
 
 <h1 class="header">Créer votre compte</h1>
 
 <?php flash('register') ?>
 
-<form method="post" action="../../Controllers/AuthController.php">
+<form method="post" action="/auth">
   <input type="hidden" name="type" value="register">
   <input type="text" name="name"
     placeholder="Full name...">
