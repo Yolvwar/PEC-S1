@@ -1,0 +1,10 @@
+{
+  "name": "project-pec",
+  "scripts": {
+    "sass:watch": "sass --watch app/sass/src/scss/main.scss:app/sass/dist/css/main.css",
+    "sass:build": "sass app/sass/src/scss/main.scss:app/sass/dist/css/main.css --style compressed"
+  },
+  "devDependencies": {
+    "sass": "^1.71.1"
+  }
+} 
