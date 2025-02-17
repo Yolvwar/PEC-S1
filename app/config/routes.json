@@ -9,16 +9,26 @@
   {
     "path": "/register",
     "methods": [
-      "GET"
+      "GET",
+      "POST"
     ],
     "controller": "RegisterController"
   },
   {
     "path": "/login",
     "methods": [
-      "GET"
+      "GET",
+      "POST"
     ],
     "controller": "LoginController"
+  },
+  {
+    "path": "/login/account-activation",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "controller": "EmailValidationController"
   },
   {
     "path": "/logout",
@@ -26,12 +36,5 @@
       "GET"
     ],
     "controller": "LogoutController"
-  },
-  {
-    "path": "/auth",
-    "methods": [
-      "POST"
-    ],
-    "controller": "AuthController"
   }
 ]

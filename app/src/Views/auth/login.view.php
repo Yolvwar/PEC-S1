@@ -5,7 +5,7 @@ include_once __DIR__ . '/../../helpers/session_helper.php';
 
 <?php flash('login') ?>
 
-<form method="post" action="/auth">
+<form method="post" action="/login">
   <input type="hidden" name="type" value="login">
   <input type="text" name="name/email"
     placeholder="Username/Email...">
