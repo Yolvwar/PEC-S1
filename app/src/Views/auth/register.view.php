@@ -4,9 +4,11 @@ include_once __DIR__ . '/../../helpers/session_helper.php';
 
 <h1 class="header">Créer votre compte</h1>
 
-<?php flash('register') ?>
+<?php flash('register');
+flash()
+ ?>
 
-<form method="post" action="/auth">
+<form method="post" action="/register">
   <input type="hidden" name="type" value="register">
   <input type="text" name="name"
     placeholder="Full name...">
