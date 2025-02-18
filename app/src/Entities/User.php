@@ -30,6 +30,20 @@ class User
     }
   }
 
+  public function findUserById($id)
+  {
+    $this->dbConnexion->query("SELECT * FROM users WHERE id = :id");
+    $this->dbConnexion->bind(':id', $id);
+
+    $row = $this->dbConnexion->single();
+
+    if ($this->dbConnexion->rowCount() > 0) {
+      return $row;
+    } else {
+      return false;
+    }
+  }
+
   // Méthode pour récupérer le account_activation_hash de l'utilisateur
 
   public function getActivationToken($email)

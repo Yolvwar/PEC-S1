@@ -24,6 +24,9 @@
           <li>Login</li>
         </a>
       <?php else: ?>
+        <a href="user/profile">
+          <li>Profile</li>
+        </a>
         <a href="logout">
           <li>Logout</li>
         </a>
