@@ -1,48 +1,77 @@
+@use "sass:color";
 @use "../partials/functions" as f;
 @use "../partials/variables" as v;
 @use "../partials/mixins" as m;
 @layer components {
-	.button {
-		@include m.resetA;
-		@include m.resetButton;
-		padding: f.rem(10) f.rem(16);
-		display: inline-block;
-		border-radius: f.rem(6);
-		background-color: var(--black);
-		color: var(--white);
-		font-size: f.rem(16);
-		line-height: f.rem(18);
-		font-weight: 600;
-		transition: all 0.3s;
-		&-lg {
-			padding: f.rem(16) f.rem(24);
-		}
+  .button {
+    @include m.resetA;
+    @include m.resetButton;
+    padding: f.rem(10) f.rem(16);
+    display: inline-block;
+    border-radius: f.rem(6);
+    background-color: var(--black);
+    color: var(--white);
+    font-size: f.rem(16);
+    line-height: f.rem(18);
+    font-weight: 600;
+    transition: all 0.3s;
+    &-lg {
+      padding: f.rem(16) f.rem(24);
+    }
 
-		&-sm {
-			padding: f.rem(8) f.rem(12);
-			font-size: f.rem(14);
-			line-height: f.rem(16);
-		}
-		// classes modificatrices de couleur
-		&-primary {
-			background-color: var(--blue);
-			&:hover {
-				background-color: var(--blue-hover);
-			}
-		}
+    &-sm {
+      padding: f.rem(8) f.rem(12);
+      font-size: f.rem(14);
+      line-height: f.rem(16);
+    }
+    // classes modificatrices de couleur
+    &-primary {
+      background-color: var(--blue);
+      &:hover {
+        background-color: var(--blue-hover);
+      }
+    }
 
-		&-secondary {
-			background-color: var(--grey);
-			&:hover {
-				background-color: var(--grey-hover);
-			}
-		}
+    &-secondary {
+      background-color: var(--grey);
+      &:hover {
+        background-color: var(--grey-hover);
+      }
+    }
 
-		&-danger {
-			background-color: var(--red);
-			&:hover {
-				background-color: var(--red-hover);
-			}
-		}
-	}
+    &-danger {
+      background-color: var(--red);
+      &:hover {
+        background-color: var(--red-hover);
+      }
+    }
+
+    // Nouveau style pour le bouton d'intervention
+    &-intervention {
+      background-color: var(--primary-color);
+      color: var(--white);
+      padding: f.rem(16) f.rem(32);
+      font-size: f.rem(18);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: f.rem(1);
+      border-radius: f.rem(8);
+      box-shadow: 0 f.rem(4) f.rem(6) rgba(0, 0, 0, 0.1);
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 f.rem(6) f.rem(12) rgba(0, 0, 0, 0.15);
+        filter: brightness(0.9);
+      }
+
+      i {
+        margin-right: f.rem(8);
+      }
+
+      @media (max-width: 768px) {
+        padding: f.rem(12) f.rem(24);
+        font-size: f.rem(16);
+      }
+    }
+  }
 }
