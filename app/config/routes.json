@@ -36,5 +36,20 @@
       "GET"
     ],
     "controller": "LogoutController"
+  },
+  {
+    "path": "/service_request",
+    "methods": [
+      "GET",
+      "POST"
+    ],
+    "controller": "ServiceRequestController"
+  },
+  {
+    "path": "/user/profile",
+    "methods": [
+      "GET"
+    ],
+    "controller": "UserController"
   }
 ]
