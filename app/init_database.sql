@@ -21,8 +21,8 @@ CREATE TABLE services (
 
 INSERT INTO services (name, description) VALUES
 ('Réparation', 'Service de réparation pour divers appareils.'),
-('Entretien', 'Service d''entretien régulier.'),
-('Dépannage d''urgence', 'Service de dépannage en cas d''urgence.');
+('Entretien', 'Service dentretien régulier.'),
+('Dépannage durgence', 'Service de dépannage en cas durgence.');
 
 CREATE TABLE locations (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -46,21 +46,44 @@ INSERT INTO time_slots (time_range) VALUES
 ('14:00 - 16:00'),
 ('16:00 - 18:00');
 
+CREATE TABLE technicians (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    phone VARCHAR(20)
+);
+
+INSERT INTO technicians (name, email, phone) VALUES
+('Technician 1', 'tech1@example.com', '1234567890'),
+('Technician 2', 'tech2@example.com', '0987654321');
+
 CREATE TABLE service_requests (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     service_id INT NOT NULL,
     location_id INT NOT NULL,
     time_slot_id INT NOT NULL,
+    technician_id INT DEFAULT NULL,
     description TEXT,
+    completed BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (service_id) REFERENCES services(id),
     FOREIGN KEY (location_id) REFERENCES locations(id),
-    FOREIGN KEY (time_slot_id) REFERENCES time_slots(id)
+    FOREIGN KEY (time_slot_id) REFERENCES time_slots(id),
+    FOREIGN KEY (technician_id) REFERENCES technicians(id)
 );
 
 INSERT INTO service_requests (user_id, service_id, location_id, time_slot_id, description) VALUES
 (1, 1, 1, 1, 'Réparation de la machine à laver.'),
 (2, 2, 2, 2, 'Entretien annuel du système de chauffage.'),
-(3, 3, 3, 3, 'Dépannage d''urgence pour une fuite d''eau.');
+(3, 3, 3, 3, 'Dépannage durgence pour une fuite deau.');
+
+CREATE TABLE evaluations (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    service_request_id INT NOT NULL,
+    rating INT NOT NULL,
+    comment TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (service_request_id) REFERENCES service_requests(id)
+);
