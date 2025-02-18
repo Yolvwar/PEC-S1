@@ -3,3 +3,6 @@
 /app/vendor/*
 /mysql/*
 !/mysql/.gitkeep
+
+/app/assets/css/*.css.map
+/node_modules/*

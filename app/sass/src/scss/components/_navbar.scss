@@ -1,0 +1,122 @@
+@use '../partials/mixins' as *;
+
+.navbar {
+    background-color: var(--white);
+    box-shadow: var(--shadow-sm);
+    padding: 1rem 2rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+
+    &__container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    &__logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+
+    &__menu {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+
+        @include mobile {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            padding: 1rem;
+            flex-direction: column;
+            gap: 1rem;
+
+            &.active {
+                display: flex;
+            }
+        }
+    }
+
+    &__item {
+        list-style: none;
+        
+        a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+
+            &:hover {
+                color: var(--primary-color);
+            }
+        }
+    }
+
+    &__burger {
+        display: none;
+        cursor: pointer;
+
+        @include mobile {
+            display: block;
+        }
+    }
+}
+
+.navbar__burger {
+    width: 30px;
+    height: 20px;
+    position: relative;
+    background: none;
+    border: none;
+    padding: 0;
+
+    span {
+        display: block;
+        width: 100%;
+        height: 2px;
+        background: var(--text-color);
+        position: absolute;
+        transition: all 0.3s ease;
+
+        &:first-child {
+            top: 0;
+        }
+
+        &:nth-child(2) {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        &:last-child {
+            bottom: 0;
+        }
+    }
+
+    &.active {
+        span {
+            &:first-child {
+                transform: rotate(45deg);
+                top: 50%;
+            }
+
+            &:nth-child(2) {
+                opacity: 0;
+            }
+
+            &:last-child {
+                transform: rotate(-45deg);
+                bottom: 50%;
+            }
+        }
+    }
+} 

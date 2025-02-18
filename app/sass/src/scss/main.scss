@@ -1,0 +1,14 @@
+// Import des partiaux du framework
+@use "partials/layers";
+@use "vendors/modern-normalize.css";
+@use "partials/globals";
+
+@use "partials/utilities";
+
+@use "components/grid";
+@use "components/button";
+@use "components/banner";
+@use "components/container";
+@use "components/forms";
+@use "components/navbar";
+@use "components/auth";
