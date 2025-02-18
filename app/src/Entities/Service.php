@@ -39,6 +39,14 @@ class Service
         }
     }
 
+    public function getServiceRequestById($id)
+    {
+        $this->dbConnexion->query("SELECT * FROM service_requests WHERE id = :id");
+        $this->dbConnexion->bind(':id', $id);
+
+        return $this->dbConnexion->single();
+    }
+
     public function getServiceRequestsByUserId($user_id)
     {
         $this->dbConnexion->query("
@@ -52,5 +60,22 @@ class Service
         $this->dbConnexion->bind(':user_id', $user_id);
 
         return $this->dbConnexion->resultSet();
+    }
+
+    public function markServiceRequestAsCompleted($id)
+    {
+        $this->dbConnexion->query("UPDATE service_requests SET completed = TRUE WHERE id = :id");
+        $this->dbConnexion->bind(':id', $id);
+
+        return $this->dbConnexion->execute();
+    }
+
+    public function isServiceRequestCompleted($id)
+    {
+        $this->dbConnexion->query("SELECT completed FROM service_requests WHERE id = :id");
+        $this->dbConnexion->bind(':id', $id);
+
+        $row = $this->dbConnexion->single();
+        return $row->completed;
     }
 }
