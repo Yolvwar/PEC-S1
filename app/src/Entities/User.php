@@ -13,6 +13,52 @@ class User
     $this->dbConnexion = new DatabaseConnexion();
   }
 
+  // CRUD 
+  public function getAll()
+  {
+    $this->dbConnexion->query("SELECT * FROM users");
+    return $this->dbConnexion->resultSet();
+  }
+
+  public function getById($id)
+  {
+    $this->dbConnexion->query("SELECT * FROM users WHERE id = :id");
+    $this->dbConnexion->bind(':id', $id);
+    return $this->dbConnexion->single();
+  }
+
+  public function update($id, $data)
+  {
+    $this->dbConnexion->query(
+      "UPDATE users SET name = :name, email = :email, username = :username WHERE id = :id"
+    );
+    $this->dbConnexion->bind(':name', $data['name']);
+    $this->dbConnexion->bind(':email', $data['email']);
+    $this->dbConnexion->bind(':username', $data['username']);
+    $this->dbConnexion->bind(':id', $id);
+    return $this->dbConnexion->execute();
+  }
+
+  public function create($data)
+  {
+    $this->dbConnexion->query(
+      "INSERT INTO users (name, email, username, password) VALUES (:name, :email, :username, :password)"
+    );
+    $this->dbConnexion->bind(':name', $data['name']);
+    $this->dbConnexion->bind(':email', $data['email']);
+    $this->dbConnexion->bind(':username', $data['username']);
+    $this->dbConnexion->bind(':password', $data['password']);
+    return $this->dbConnexion->execute();
+  }
+
+  public function delete($id)
+  {
+    $this->dbConnexion->query("DELETE FROM users WHERE id = :id");
+    $this->dbConnexion->bind(':id', $id);
+    return $this->dbConnexion->execute();
+  }
+
+
   // Méthode pour trouver un utilisateur par son email ou son nom d'utilisateur
   public function findUserByEmailOrUsername($email, $username)
   {

@@ -1,13 +1,14 @@
 <?php
-include_once __DIR__ . '/../../helpers/session_helper.php';
+include_once __DIR__ . '/../../Helpers/session_helper.php';
 ?>
 
 <h1 class="header">Demande de Réparation</h1>
 
 <?php flash('service_request') ?>
+<?php flash('evaluation')  ?>
 
 <form method="post" action="/service_request">
-  <input type="hidden" name="type" value="service_request">
+  <input type="hidden" name="type" value="create_service_request">
 
   <label for="service_id">Type de service :</label>
   <select name="service_id" id="service_id">
@@ -19,7 +20,7 @@ include_once __DIR__ . '/../../helpers/session_helper.php';
   <label for="location_id">Lieu d'intervention :</label>
   <select name="location_id" id="location_id">
     <?php foreach ($locations as $location): ?>
-      <option value="<?php echo $location->id; ?>"><?php echo $location->name; ?></option>
+      <option value="<?php echo $location->id; ?>"><?php echo $location->name . ' (' . $location->address . ')'; ?></option>
     <?php endforeach; ?>
   </select>
 

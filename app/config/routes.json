@@ -1,55 +1,127 @@
 [
   {
     "path": "/home",
-    "methods": [
-      "GET"
-    ],
-    "controller": "HomeController"
+    "methods": ["GET"],
+    "controller": "HomeController@process"
   },
   {
     "path": "/register",
-    "methods": [
-      "GET",
-      "POST"
-    ],
-    "controller": "RegisterController"
+    "methods": ["GET", "POST"],
+    "controller": "RegisterController@process"
   },
   {
     "path": "/login",
-    "methods": [
-      "GET",
-      "POST"
-    ],
-    "controller": "LoginController"
+    "methods": ["GET", "POST"],
+    "controller": "LoginController@process"
   },
   {
     "path": "/login/account-activation",
-    "methods": [
-      "GET",
-      "POST"
-    ],
-    "controller": "EmailValidationController"
+    "methods": ["GET", "POST"],
+    "controller": "EmailValidationController@process"
   },
   {
     "path": "/logout",
-    "methods": [
-      "GET"
-    ],
-    "controller": "LogoutController"
+    "methods": ["GET"],
+    "controller": "LogoutController@process"
   },
   {
     "path": "/service_request",
-    "methods": [
-      "GET",
-      "POST"
-    ],
-    "controller": "ServiceRequestController"
+    "methods": ["GET", "POST"],
+    "controller": "ServiceRequestController@process"
   },
   {
     "path": "/user/profile",
-    "methods": [
-      "GET"
-    ],
-    "controller": "UserController"
+    "methods": ["GET"],
+    "controller": "UserController@process"
+  },
+  {
+    "path": "/technician/accept",
+    "methods": ["POST"],
+    "controller": "TechnicianController"
+  },
+  {
+    "path": "/admin",
+    "methods": ["GET", "POST"],
+    "controller": "AdminControllers\\AdminController@process"
+  },
+  {
+    "path": "/admin/users",
+    "methods": ["GET"],
+    "controller": "AdminControllers\\AdminController@manageUsers"
+  },
+  {
+    "path": "/admin/users/create",
+    "methods": ["GET", "POST"],
+    "controller": "AdminControllers\\AdminController@createUser"
+  },
+  {
+    "path": "/admin/users/edit/:id",
+    "methods": ["GET", "POST"],
+    "controller": "AdminControllers\\AdminController@editUser"
+  },
+  {
+    "path": "/admin/users/delete/:id",
+    "methods": ["POST"],
+    "controller": "AdminControllers\\AdminController@deleteUser"
+  },
+  {
+    "path": "/admin/technicians",
+    "methods": ["GET"],
+    "controller": "AdminControllers\\AdminController@manageTechnicians"
+  },
+  {
+    "path": "/admin/technicians/create",
+    "methods": ["GET", "POST"],
+    "controller": "AdminControllers\\AdminController@createTechnician"
+  },
+  {
+    "path": "/admin/technicians/edit/:id",
+    "methods": ["GET", "POST"],
+    "controller": "AdminControllers\\AdminController@editTechnician"
+  },
+  {
+    "path": "/admin/technicians/delete/:id",
+    "methods": ["POST"],
+    "controller": "AdminControllers\\AdminController@deleteTechnician"
+  },
+  {
+    "path": "/admin/service_requests",
+    "methods": ["GET"],
+    "controller": "AdminControllers\\AdminController@manageServiceRequests"
+  },
+  {
+    "path": "/admin/service_requests/create",
+    "methods": ["GET", "POST"],
+    "controller": "AdminControllers\\AdminController@createServiceRequest"
+  },
+  {
+    "path": "/admin/service_requests/edit/:id",
+    "methods": ["GET", "POST"],
+    "controller": "AdminControllers\\AdminController@editServiceRequest"
+  },
+  {
+    "path": "/admin/service_requests/delete/:id",
+    "methods": ["POST"],
+    "controller": "AdminControllers\\AdminController@deleteServiceRequest"
+  },
+  {
+    "path": "/admin/services",
+    "methods": ["GET"],
+    "controller": "AdminControllers\\AdminController@manageServices"
+  },
+  {
+    "path": "/admin/services/create",
+    "methods": ["GET", "POST"],
+    "controller": "AdminControllers\\AdminController@createService"
+  },
+  {
+    "path": "/admin/services/edit/:id",
+    "methods": ["GET", "POST"],
+    "controller": "AdminControllers\\AdminController@editService"
+  },
+  {
+    "path": "/admin/services/delete/:id",
+    "methods": ["POST"],
+    "controller": "AdminControllers\\AdminController@deleteService"
   }
 ]

@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ . '/../../helpers/session_helper.php';
+include_once __DIR__ . '/../../Helpers/session_helper.php';
 ?>
 
 <h1 class="header">Créer votre compte</h1>
