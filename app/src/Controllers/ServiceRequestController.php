@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Entities\Service;
+use App\Entities\ServiceRequest;
 use App\Entities\Technician;
 use App\Entities\Evaluation;
 use App\Entities\Location;
@@ -11,11 +12,12 @@ use App\Lib\Http\Request;
 use App\Lib\Http\Response;
 use App\Lib\Controllers\AbstractController;
 
-require_once __DIR__ . '/../helpers/session_helper.php';
+require_once __DIR__ . '/../Helpers/session_helper.php';
 
 class ServiceRequestController extends AbstractController
 {
   private $service;
+  private $serviceRequest;
   private $technician;
   private $evaluation;
   private $location;
@@ -24,6 +26,7 @@ class ServiceRequestController extends AbstractController
   public function __construct()
   {
     $this->service = new Service();
+    $this->serviceRequest = new ServiceRequest();
     $this->technician = new Technician();
     $this->evaluation = new Evaluation();
     $this->location = new Location();
@@ -46,7 +49,7 @@ class ServiceRequestController extends AbstractController
       'serviceTypes' => $this->service->getServiceTypes(),
       'locations' => $this->location->getLocations(),
       'timeSlots' => $this->timeSlot->getTimeSlots(),
-      'technicians' => $this->technician->getTechnicians()
+      'technicians' => $this->technician->getAll()
     ], 'service');
   }
 
@@ -65,7 +68,7 @@ class ServiceRequestController extends AbstractController
       redirect('/service_request');
     }
 
-    if ($this->service->createServiceRequest($data)) {
+    if ($this->serviceRequest->createServiceRequest($data)) {
       flash("service_request", "Demande de service créée avec succès.");
       redirect('/home');
     } else {
@@ -86,13 +89,13 @@ class ServiceRequestController extends AbstractController
       redirect('/user/profile');
     }
 
-    $serviceRequest = $this->service->getServiceRequestById($data['service_request_id']);
+    $serviceRequest = $this->serviceRequest->getServiceRequestById($data['service_request_id']);
     if (!$serviceRequest) {
       flash("evaluation", "Demande de service non trouvée.");
       redirect('/user/profile');
     }
 
-    if (!$this->service->isServiceRequestCompleted($data['service_request_id'])) {
+    if (!$this->serviceRequest->isServiceRequestCompleted($data['service_request_id'])) {
       flash("evaluation", "Vous ne pouvez pas évaluer une demande de service non terminée.");
       redirect('/user/profile');
     }
@@ -108,19 +111,6 @@ class ServiceRequestController extends AbstractController
     } else {
       flash("evaluation", "Une erreur s'est produite lors de l'ajout de l'évaluation.");
       redirect('/user/profile');
-    }
-  }
-
-  public function acceptServiceRequest(Request $request)
-  {
-    $technician_id = $request->getPost('technician_id');
-    $service_request_id = $request->getPost('service_request_id');
-
-    if ($this->technician->acceptServiceRequest($technician_id, $service_request_id)) {
-      flash("technician", "Service request accepted successfully.");
-      redirect('/home');
-    } else {
-      flash("technician", "An error occurred while accepting the service request.");
     }
   }
 }

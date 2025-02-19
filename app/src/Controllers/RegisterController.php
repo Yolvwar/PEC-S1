@@ -8,7 +8,7 @@ use App\Lib\Http\Request;
 use App\Lib\Http\Response;
 use App\Lib\Controllers\AbstractController;
 
-require_once __DIR__ . '/../helpers/session_helper.php';
+require_once __DIR__ . '/../Helpers/session_helper.php';
 
 class RegisterController extends AbstractController
 {

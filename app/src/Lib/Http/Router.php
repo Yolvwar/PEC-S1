@@ -19,9 +19,12 @@ class Router
             return new Response('Method not allowed', 405, ['Content-Type' => 'text/plain']);
         }
 
-        $controller = 'App\\Controllers\\' . $routeByMethod->controller;
+        list($controllerName, $method) = explode('@', $routeByMethod->controller);
+        $controller = 'App\\Controllers\\' . $controllerName;
         $controller = new $controller();
-        return $controller->process($request);
+
+        $params = self::extractParams($request->getUri(), $routeByMethod->path);
+        return $controller->$method($request, ...$params);
     }
 
     private static function getRoutesFromUriRequest(Request $request): array{
@@ -85,5 +88,18 @@ class Router
 
     private static function checkMethod(Request $request, object $route): bool {
         return in_array($request->getMethod(), $route->methods);
+    }
+
+    private static function extractParams(string $url, string $path): array {
+        $urlParts = self::getUrlParts($url);
+        $pathParts = self::getUrlParts($path);
+        
+        $params = [];
+        foreach($urlParts as $key => $part) {
+            if(self::isUrlPartSlug($pathParts[$key])) {
+                $params[] = $part;
+            }
+        }
+        return $params;
     }
 }

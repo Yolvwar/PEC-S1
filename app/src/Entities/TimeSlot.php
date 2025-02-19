@@ -13,7 +13,7 @@ class TimeSlot
     $this->dbConnexion = new DatabaseConnexion();
   }
 
-  public function getTimeSlots()
+  public function getAll()
   {
     $this->dbConnexion->query("SELECT * FROM time_slots");
     return $this->dbConnexion->resultSet();

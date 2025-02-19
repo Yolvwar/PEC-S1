@@ -7,7 +7,7 @@ use App\Lib\Http\Request;
 use App\Lib\Http\Response;
 use App\Lib\Controllers\AbstractController;
 
-require_once __DIR__ . '/../helpers/session_helper.php';
+require_once __DIR__ . '/../Helpers/session_helper.php';
 
 class TechnicianController extends AbstractController
 {
@@ -27,16 +27,16 @@ class TechnicianController extends AbstractController
     return new Response('Technician action processed', 200);
   }
 
-  public function acceptServiceRequest(Request $request)
+  public function acceptServiceRequest(Request $request): Response
   {
-    $technician_id = $request->getPost('technician_id');
     $service_request_id = $request->getPost('service_request_id');
+    $technician_id = $request->getPost('technician_id');
 
     if ($this->technician->acceptServiceRequest($technician_id, $service_request_id)) {
-      flash("technician", "Service request accepted successfully.");
-      redirect('/home');
+      flash("admin", "Technicien assigné avec succès.");
     } else {
-      flash("technician", "An error occurred while accepting the service request.");
+      flash("admin", "Une erreur s'est produite lors de l'assignation du technicien.");
     }
+    redirect('/admin/administrative-commands');
   }
 }

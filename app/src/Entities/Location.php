@@ -13,7 +13,7 @@ class Location
     $this->dbConnexion = new DatabaseConnexion();
   }
 
-  public function getLocations()
+  public function getAll()
   {
     $this->dbConnexion->query("SELECT * FROM locations");
     return $this->dbConnexion->resultSet();
