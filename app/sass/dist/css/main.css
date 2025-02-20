@@ -821,6 +821,76 @@
     display: block;
   }
 }
+.navbar .dropdown {
+  position: relative;
+}
+.navbar .dropdown .dropdown-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.navbar .dropdown .dropdown-toggle .fa-chevron-down {
+  font-size: 0.75rem;
+  transition: transform 0.2s;
+}
+.navbar .dropdown:hover .dropdown-toggle .fa-chevron-down {
+  transform: rotate(180deg);
+}
+.navbar .dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.navbar .dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem;
+  min-width: 180px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.2s;
+  list-style: none;
+}
+.navbar .dropdown-menu li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.navbar .dropdown-menu li a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  color: var(--text-color);
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+.navbar .dropdown-menu li a i {
+  color: var(--primary-color);
+  font-size: 1rem;
+}
+.navbar .dropdown-menu li a:hover {
+  background: var(--bg-light);
+  color: var(--primary-color);
+}
+@media (max-width: 767px) {
+  .navbar .dropdown-menu {
+    position: static;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    padding: 0;
+  }
+  .navbar .dropdown-menu li a {
+    padding-left: 2.5rem;
+  }
+}
 
 .navbar__burger {
   width: 30px;
@@ -2461,6 +2531,349 @@ textarea.form-control:focus {
 @media (max-width: 768px) {
   .service-table th, .service-table td {
     min-width: 120px;
+  }
+}
+.devis-page {
+  padding: calc(var(--navbar-height) + 2rem) 0 2rem 0;
+  min-height: calc(100vh - var(--navbar-height));
+  background: var(--bg-light);
+}
+.devis-page .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.devis-header {
+  margin-bottom: 2rem;
+}
+.devis-header h1 {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--text-color);
+  font-size: 2rem;
+}
+.devis-header h1 i {
+  color: var(--primary-color);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+}
+.empty-state i {
+  font-size: 4rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+.empty-state h2 {
+  color: var(--text-color);
+  margin-bottom: 1rem;
+}
+.empty-state p {
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.devis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.devis-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.devis-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.devis-card__header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.devis-card__header .service-type {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.devis-card__header .service-type i {
+  color: var(--primary-color);
+  font-size: 1.25rem;
+}
+.devis-card__header .service-type h3 {
+  color: var(--text-color);
+  font-size: 1.1rem;
+  margin: 0;
+}
+.devis-card__header .devis-date {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.devis-card__header .devis-date i {
+  font-size: 1rem;
+}
+.devis-card__content {
+  padding: 1.5rem;
+}
+.devis-card__content .location-info,
+.devis-card__content .description,
+.devis-card__content .time-slot {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.devis-card__content .location-info i,
+.devis-card__content .description i,
+.devis-card__content .time-slot i {
+  color: var(--primary-color);
+  font-size: 1rem;
+  margin-top: 0.25rem;
+}
+.devis-card__content .location-info p,
+.devis-card__content .description p,
+.devis-card__content .time-slot p {
+  color: var(--text-color);
+  margin: 0;
+  line-height: 1.5;
+}
+.devis-card__content .description p {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.devis-card__footer {
+  padding: 1.5rem;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.devis-card__footer .estimated-cost {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.devis-card__footer .estimated-cost .label {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.devis-card__footer .estimated-cost .amount {
+  color: var(--primary-color);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+@media (max-width: 767px) {
+  .devis-grid {
+    grid-template-columns: 1fr;
+  }
+  .devis-card__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .devis-card__footer {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .devis-card__footer .btn {
+    width: 100%;
+  }
+}
+.settings-page {
+  padding: calc(var(--navbar-height) + 2rem) 0 2rem 0;
+  background: var(--bg-light);
+  min-height: 100vh;
+}
+.settings-page .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.settings-header {
+  margin-bottom: 2rem;
+}
+.settings-header h1 {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--text-color);
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+.settings-header h1 i {
+  color: var(--primary-color);
+}
+.settings-header p {
+  color: var(--text-muted);
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.settings-section {
+  background: white;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.settings-section h2 {
+  padding: 1.5rem;
+  margin: 0;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.25rem;
+  color: var(--text-color);
+}
+.settings-section h2 i {
+  color: var(--primary-color);
+}
+.settings-section .settings-content {
+  padding: 1.5rem;
+}
+
+.profile-picture {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.profile-picture img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  object-fit: cover;
+  border: 3px solid var(--primary-color);
+}
+
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+.setting-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.setting-item .setting-info h3 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1rem;
+  color: var(--text-color);
+}
+.setting-item .setting-info p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.switch input:checked + .slider {
+  background-color: var(--primary-color);
+}
+.switch input:checked + .slider:before {
+  transform: translateX(24px);
+}
+.switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+.switch .slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+.vehicle-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+.vehicle-card .vehicle-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.vehicle-card .vehicle-info i {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+}
+.vehicle-card .vehicle-info h3 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1rem;
+}
+.vehicle-card .vehicle-info p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.settings-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-color);
+}
+
+@media (max-width: 767px) {
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+  .settings-actions {
+    flex-direction: column;
+  }
+  .settings-actions .btn {
+    width: 100%;
   }
 }
 .service-table__header th {

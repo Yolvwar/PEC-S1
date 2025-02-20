@@ -32,11 +32,24 @@ include_once __DIR__ . '/../Helpers/session_helper.php';
           <a href="/service_request"><i class="fas fa-wrench"></i> Réparation</a>
         </li>
         <?php if(isset($_SESSION['user_id'])) : ?>
-          <li class="navbar__item">
-            <a href="/user/profile">
+          <li class="navbar__item dropdown">
+            <a href="#" class="dropdown-toggle">
               <i class="fas fa-user"></i> 
               <?php echo explode(" ", $_SESSION['user_username'])[0]; ?>
+              <i class="fas fa-chevron-down"></i>
             </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a href="/user/profile">
+                  <i class="fas fa-id-card"></i> Profile
+                </a>
+              </li>
+              <li>
+                <a href="/user/devis">
+                  <i class="fas fa-file-invoice"></i> Mes devis
+                </a>
+              </li>
+            </ul>
           </li>
           <li class="navbar__item">
             <a href="/logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>

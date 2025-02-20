@@ -22,31 +22,44 @@ include_once __DIR__ . '/../../Helpers/session_helper.php';
         </button>
 
         <ul class="navbar__menu">
+        <li class="navbar__item active">
+          <a href="/home"><i class="fas fa-home"></i> Accueil</a>
+        </li>
+        <li class="navbar__item">
+          <a href="/service_request"><i class="fas fa-wrench"></i> Réparation</a>
+        </li>
+        <?php if(isset($_SESSION['user_id'])) : ?>
+          <li class="navbar__item dropdown">
+            <a href="#" class="dropdown-toggle">
+              <i class="fas fa-user"></i> 
+              <?php echo explode(" ", $_SESSION['user_username'])[0]; ?>
+              <i class="fas fa-chevron-down"></i>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a href="/user/profile">
+                  <i class="fas fa-id-card"></i> Profile
+                </a>
+              </li>
+              <li>
+                <a href="/user/devis">
+                  <i class="fas fa-file-invoice"></i> Mes devis
+                </a>
+              </li>
+            </ul>
+          </li>
           <li class="navbar__item">
-            <a href="/home"><i class="fas fa-home"></i> Accueil</a>
+            <a href="/logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
           </li>
-          <li class="navbar__item active">
-            <a href="/service_request"><i class="fas fa-wrench"></i> Réparation</a>
+        <?php else : ?>
+          <li class="navbar__item">
+            <a href="/login"><i class="fas fa-sign-in-alt"></i> Connexion</a>
           </li>
-          <?php if(isset($_SESSION['user_id'])) : ?>
-            <li class="navbar__item">
-              <a href="/user/profile">
-                <i class="fas fa-user"></i> 
-                <?php echo explode(" ", $_SESSION['user_username'])[0]; ?>
-              </a>
-            </li>
-            <li class="navbar__item">
-              <a href="/logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
-            </li>
-          <?php else : ?>
-            <li class="navbar__item">
-              <a href="/login"><i class="fas fa-sign-in-alt"></i> Connexion</a>
-            </li>
-            <li class="navbar__item">
-              <a href="/register"><i class="fas fa-user-plus"></i> Inscription</a>
-            </li>
-          <?php endif; ?>
-        </ul>
+          <li class="navbar__item">
+            <a href="/register"><i class="fas fa-user-plus"></i> Inscription</a>
+          </li>
+        <?php endif; ?>
+      </ul>
       </div>
     </nav>
 
