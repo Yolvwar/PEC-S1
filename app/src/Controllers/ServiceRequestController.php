@@ -46,9 +46,9 @@ class ServiceRequestController extends AbstractController
 
     return $this->render('service_request', [
       'title' => 'Demande de Réparation',
-      'serviceTypes' => $this->service->getServiceTypes(),
-      'locations' => $this->location->getLocations(),
-      'timeSlots' => $this->timeSlot->getTimeSlots(),
+      'serviceTypes' => $this->service->getAll(),
+      'locations' => $this->location->getAll(),
+      'timeSlots' => $this->timeSlot->getAll(),
       'technicians' => $this->technician->getAll()
     ], 'service');
   }
@@ -112,5 +112,12 @@ class ServiceRequestController extends AbstractController
       flash("evaluation", "Une erreur s'est produite lors de l'ajout de l'évaluation.");
       redirect('/user/profile');
     }
+  }
+
+  public function confirmedServiceRequest(Request $request): Response
+  {
+    $service_request_id = $request->getPost('service_request_id');
+    $this->serviceRequest->confirmServiceRequest($service_request_id);
+    redirect('/home');
   }
 }

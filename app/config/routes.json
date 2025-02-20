@@ -123,5 +123,15 @@
     "path": "/admin/services/delete/:id",
     "methods": ["POST"],
     "controller": "AdminControllers\\AdminController@deleteService"
+  },
+  {
+    "path": "/admin/service_requests/assign_technician/:id",
+    "methods": ["GET", "POST"],
+    "controller": "AdminControllers\\AdminController@assignTechnician"
+  },
+  {
+    "path": "/admin/service_requests/complete/:id",
+    "methods": ["POST"],
+    "controller": "AdminControllers\\AdminController@completeServiceRequest"
   }
 ]

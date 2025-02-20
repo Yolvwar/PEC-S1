@@ -10,6 +10,7 @@ use App\Entities\Location;
 use App\Entities\TimeSlot;
 use App\Lib\Http\Request;
 use App\Lib\Http\Response;
+use App\Entities\Mail;
 use App\Lib\Controllers\AbstractController;
 
 require_once __DIR__ . '/../../Helpers/session_helper.php';
@@ -122,37 +123,43 @@ class AdminController extends AbstractController
     exit;
   }
 
-  private function assignTechnician(Request $request): Response
-  {
-    $service_request_id = $request->getPost('service_request_id');
-    $technician_id = $request->getPost('technician_id');
-
-    if ($this->technician->acceptServiceRequest($technician_id, $service_request_id)) {
-      flash("admin", "Technicien assigné avec succès.");
-    } else {
-      flash("admin", "Une erreur s'est produite lors de l'assignation du technicien.");
-    }
-
-    redirect('/admin');
-  }
-
-    // -----------------ServiceRequest-----------------
+  // -----------------ServiceRequest-----------------
 
 
   public function manageServiceRequests(Request $request): Response
   {
     $service_requests = $this->serviceRequestModel->getAll();
-    return $this->render('admin/service_requests/index', ['service_requests' => $service_requests]);
+    $technicians = $this->technicianModel->getAvailibleTechnicians();
+    return $this->render('admin/service_requests/index', [
+      'service_requests' => $service_requests,
+      'technicians' => $technicians
+  ]);
   }
 
   public function createServiceRequest(Request $request): Response
   {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-      $this->serviceRequestModel->create($_POST);
-      header('Location: /admin/service_requests');
-      exit;
-    }
-    return $this->render('admin/service_requests/create');
+      if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+          $data = $_POST;
+          if ($data['location_id'] === 'custom') {
+              $location_id = $this->location->create('Custom Address', $data['custom_address']);
+              $data['location_id'] = $location_id;
+          }
+          $this->serviceRequestModel->create($data);
+          header('Location: /admin/service_requests');
+          exit;
+      }
+
+      $users = $this->userModel->getAll();
+      $services = $this->service->getAll();
+      $locations = $this->location->getAll();
+      $timeSlots = $this->timeSlot->getAll();
+
+      return $this->render('admin/service_requests/create', [
+          'users' => $users,
+          'services' => $services,
+          'locations' => $locations,
+          'timeSlots' => $timeSlots
+      ]);
   }
 
   public function editServiceRequest(Request $request, $id): Response
@@ -164,7 +171,7 @@ class AdminController extends AbstractController
       }
       $user = $this->userModel->getById($id);
       $serviceRequest = $this->serviceRequestModel->getById($id);
-      $services = $this->service->getServiceTypes();
+      $services = $this->service->getAll();
       $locations = $this->location->getAll();
       $timeSlots = $this->timeSlot->getAll();
       return $this->render('admin/service_requests/edit', [
@@ -181,6 +188,29 @@ class AdminController extends AbstractController
     $this->serviceRequestModel->delete($id);
     header('Location: /admin/service_requests');
     exit;
+  }
+
+  public function completeServiceRequest(Request $request, $id): Response
+  {
+    $this->serviceRequestModel->complete($id);
+    header('Location: /admin/service_requests');
+    exit;
+  }
+
+  public function assignTechnician(Request $request, $id): Response
+  {
+      if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+          $technician_id = $request->getPost('technician_id');
+          $this->serviceRequestModel->assignTechnician($id, $technician_id);
+          header('Location: /admin/service_requests');
+          exit;
+      }
+      $service_request = $this->serviceRequestModel->getById($id);
+      $technicians = $this->technicianModel->getAll();
+      return $this->render('admin/service_requests/assign_technician', [
+          'service_request' => $service_request,
+          'technicians' => $technicians
+      ]);
   }
 
   // -----------------Services-----------------

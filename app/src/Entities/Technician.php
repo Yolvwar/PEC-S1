@@ -66,7 +66,17 @@ class Technician
         $this->dbConnexion->query("UPDATE service_requests SET technician_id = :technician_id WHERE id = :service_request_id");
         $this->dbConnexion->bind(':technician_id', $technician_id);
         $this->dbConnexion->bind(':service_request_id', $service_request_id);
+        return $this->dbConnexion->execute();
 
+        $this->dbConnexion->query("UPDATE technicians SET available = FALSE WHERE id = :technician_id");
+        $this->dbConnexion->bind(':technician_id', $technician_id);
         return $this->dbConnexion->execute();
     }
+
+    public function getAvailibleTechnicians()
+    {
+        $this->dbConnexion->query("SELECT * FROM technicians WHERE available = TRUE");
+        return $this->dbConnexion->resultSet();
+    }
+
 }

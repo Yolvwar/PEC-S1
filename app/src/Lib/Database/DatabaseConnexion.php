@@ -84,4 +84,5 @@ class DatabaseConnexion
     public function rowCount(){
         return $this->stmt->rowCount();
     }
+
 }
