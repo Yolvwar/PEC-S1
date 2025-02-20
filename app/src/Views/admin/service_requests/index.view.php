@@ -1,125 +1,196 @@
-<body>
-    <div class="admin-container">
-        <h1>Service Request Dashboard</h1>
-        <a href="/admin/service_requests/create" class="btn btn-primary">Create New Service Request</a>
-        <table>
-            <thead>
-                <tr>
-                    <th>User Information</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($service_requests as $request): ?>
-                    <tr>
-                        <td>
-                            <p><strong>Name:</strong> <?= $request->user_name ?></p>
-                            <p><strong>Email:</strong> <?= $request->user_email ?></p>
-                            <p><strong>Service:</strong> <?= $request->service_name ?></p>
-                            <p><strong>Location:</strong> <?= $request->location_street . ', ' . $request->location_address . ', ' . $request->location_city . ', ' . $request->location_postal_code ?></p>
-                            <p><strong>Technician assigned:</strong> <?= $request->technician_name ?></p>
-                            <p><strong>Time Slot:</strong> <?= $request->time_range ?></p>
-                            <p><strong>Description:</strong> <?= $request->description ?></p>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demandes de Service - Doc 2 Wheels</title>
+    <link rel="stylesheet" href="../../../../sass/dist/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="admin-layout">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+        <div class="admin-sidebar__logo">
+            <i class="fas fa-motorcycle"></i>
+            <span>Doc 2 Wheels</span>
+        </div>
+        
+        <nav class="admin-sidebar__nav">
+            <ul>
+                <li>
+                    <a href="/admin">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/users">
+                        <i class="fas fa-users"></i>
+                        <span>Utilisateurs</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/technicians">
+                        <i class="fas fa-wrench"></i>
+                        <span>Techniciens</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin/services">
+                        <i class="fas fa-cogs"></i>
+                        <span>Services</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="/admin/service_requests">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>Demandes</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
 
-                            <div>
-                                <p><strong>Completed:</strong> <?= $request->completed ? 'Yes' : 'No' ?></p>
-                            </div>
-                        </td>
-                        <td>
-                            <form method="post" action="/admin/service_requests/assign_technician/<?= $request->id ?>" style="display:inline;">
-                                <select name="technician_id">
-                                    <?php foreach ($technicians as $technician): ?>
-                                        <option value="<?= $technician->id ?>"><?= $technician->name ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <button type="submit">Assign Technician</button>
-                            </form>
-                            <form method="post" action="/admin/service_requests/complete/<?= $request->id ?>" style="display:inline;">
-                                <button type="submit">Complete</button>
-                            </form>
-                            <form method="post" action="/admin/service_requests/delete/<?= $request->id ?>" style="display:inline;">
-                                <button type="submit">Delete</button>
-                            </form>
-                            <a href="/admin/service_requests/edit/<?= $request->id ?>" class="btn btn-secondary">Edit</a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+    <!-- Main Content -->
+    <main class="admin-main">
+        <!-- Top Bar -->
+        <header class="admin-header">
+            <div class="admin-header__search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Rechercher une demande...">
+            </div>
+            
+            <div class="admin-header__profile">
+                <div class="profile">
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff" alt="Profile">
+                    <span>Admin</span>
+                    <a href="/logout" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> Déconnexion
+                    </a>
+                </div>
+            </div>
+        </header>
 
+        <!-- Service Requests Content -->
+        <div class="admin-content">
+            <div class="content-header">
+                <h1>Demandes de Service</h1>
+                <a href="/admin/service_requests/create" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Nouvelle Demande
+                </a>
+            </div>
 
-    <style>
-        body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-}
-
-.admin-container {
-    width: 80%;
-    margin: 20px auto;
-    background: #fff;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-h1 {
-    text-align: center;
-    color: #333;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-}
-
-table, th, td {
-    border: 1px solid #ddd;
-}
-
-th, td {
-    padding: 12px;
-    text-align: left;
-}
-
-th {
-    background-color: #f2f2f2;
-}
-
-tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.btn {
-    display: inline-block;
-    padding: 10px 20px;
-    margin: 5px 0;
-    text-decoration: none;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.btn-secondary {
-    background-color: #6c757d;
-}
-
-.btn-primary {
-    background-color: #007bff;
-}
-
-form {
-    display: inline;
-}
-
-select {
-    padding: 5px;
-    margin-right: 10px;
-}
-    </style>
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Client</th>
+                                <th>Service</th>
+                                <th>Technicien</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($service_requests as $request): ?>
+                                <tr>
+                                    <td>
+                                        <div class="client-info">
+                                            <img src="https://ui-avatars.com/api/?name=<?= urlencode($request->user_name) ?>&background=random" 
+                                                 alt="<?= $request->user_name ?>">
+                                            <div>
+                                                <span class="name"><?= $request->user_name ?></span>
+                                                <span class="email"><?= $request->user_email ?></span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="service-info">
+                                            <span class="service-name"><?= $request->service_name ?></span>
+                                            <div class="location">
+                                                <i class="fas fa-map-marker-alt"></i>
+                                                <div class="location-details">
+                                                    <span class="street"><?= $request->location_street ?></span>
+                                                    <?php if ($request->location_address): ?>
+                                                        <span class="address"><?= $request->location_address ?></span>
+                                                    <?php endif; ?>
+                                                    <span class="city-code"><?= $request->location_city ?>, <?= $request->location_postal_code ?></span>
+                                                </div>
+                                            </div>
+                                            <div class="time-slot">
+                                                <i class="fas fa-clock"></i>
+                                                <?= $request->time_range ?>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="technician-assignment">
+                                            <?php if ($request->technician_name): ?>
+                                                <div class="assigned-tech">
+                                                    <i class="fas fa-user-check"></i>
+                                                    <span class="tech-name"><?= $request->technician_name ?></span>
+                                                </div>
+                                            <?php endif; ?>
+                                            <form method="post" action="/admin/service_requests/assign_technician/<?= $request->id ?>" 
+                                                  class="tech-assign-form">
+                                                <div class="select-wrapper">
+                                                    <i class="fas fa-wrench select-icon"></i>
+                                                    <select name="technician_id" class="form-control">
+                                                        <option value="">Choisir un technicien</option>
+                                                        <?php foreach ($technicians as $technician): ?>
+                                                            <option value="<?= $technician->id ?>" 
+                                                                    <?= $technician->id == $request->technician_id ? 'selected' : '' ?>>
+                                                                <?= $technician->name ?>
+                                                                <?php if (!$technician->available): ?> 
+                                                                    (Indisponible)
+                                                                <?php endif; ?>
+                                                            </option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                                <button type="submit" class="btn btn-sm btn-primary">
+                                                    <i class="fas fa-user-plus"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="status-badge <?= $request->completed ? 'completed' : 'pending' ?>">
+                                            <i class="fas <?= $request->completed ? 'fa-check-circle' : 'fa-clock' ?>"></i>
+                                            <?= $request->completed ? 'Terminé' : 'En attente' ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="actions">
+                                            <?php if (!$request->completed): ?>
+                                                <form method="post" action="/admin/service_requests/complete/<?= $request->id ?>" 
+                                                      class="action-form">
+                                                    <button type="submit" class="btn-icon success" title="Marquer comme terminé">
+                                                        <i class="fas fa-check"></i>
+                                                    </button>
+                                                </form>
+                                            <?php endif; ?>
+                                            <a href="/admin/service_requests/edit/<?= $request->id ?>" 
+                                               class="btn-icon" title="Modifier">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <form method="post" action="/admin/service_requests/delete/<?= $request->id ?>" 
+                                                  class="action-form"
+                                                  onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette demande ?');">
+                                                <button type="submit" class="btn-icon delete" title="Supprimer">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
+</html>
