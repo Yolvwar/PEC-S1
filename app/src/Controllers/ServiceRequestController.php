@@ -54,27 +54,34 @@ class ServiceRequestController extends AbstractController
   }
 
   public function createServiceRequest(Request $request)
-  {
+{
     $data = [
-      'user_id' => $_SESSION['user_id'],
-      'service_id' => $request->getPost('service_id'),
-      'location_id' => $request->getPost('location_id'),
-      'time_slot_id' => $request->getPost('time_slot_id'),
-      'description' => trim($request->getPost('description'))
+        'user_id' => $_SESSION['user_id'],
+        'service_id' => $request->getPost('service_id'),
+        'location_street' => $request->getPost('location_street'),
+        'location_address' => $request->getPost('location_address'),
+        'location_city' => $request->getPost('location_city'),
+        'location_postal_code' => $request->getPost('location_postal_code'),
+        'time_slot_id' => $request->getPost('time_slot_id'),
+        'description' => trim($request->getPost('description'))
     ];
 
-    if (empty($data['service_id']) || empty($data['location_id']) || empty($data['time_slot_id']) || empty($data['description'])) {
-      flash("service_request", "Veuillez remplir tous les champs.");
-      redirect('/service_request');
+    if (empty($data['service_id']) || empty($data['location_street']) || empty($data['location_address']) || empty($data['location_city']) || empty($data['location_postal_code']) || empty($data['time_slot_id']) || empty($data['description'])) {
+        flash("service_request", "Veuillez remplir tous les champs.");
+        redirect('/service_request');
     }
 
-    if ($this->serviceRequest->createServiceRequest($data)) {
-      flash("service_request", "Demande de service créée avec succès.");
-      redirect('/home');
+    // Create location and get its ID
+    $location_id = $this->location->createAndReturnId($data['location_street'], $data['location_address'], $data['location_city'], $data['location_postal_code']);
+    $data['location_id'] = $location_id;
+
+    if ($this->serviceRequest->create($data)) {
+        flash("service_request", "Demande de service créée avec succès.");
+        redirect('/home');
     } else {
-      flash("service_request", "Une erreur s'est produite lors de la création de la demande de service.");
+        flash("service_request", "Une erreur s'est produite lors de la création de la demande de service.");
     }
-  }
+}
 
   public function addEvaluation(Request $request)
   {
@@ -120,4 +127,6 @@ class ServiceRequestController extends AbstractController
     $this->serviceRequest->confirmServiceRequest($service_request_id);
     redirect('/home');
   }
+
+  
 }

@@ -32,7 +32,7 @@ include_once __DIR__ . '/../../Helpers/session_helper.php';
       <?php foreach ($serviceRequests as $request): ?>
         <tr>
           <td><?php echo $request->service_name; ?></td>
-          <td><?php echo $request->location_name . ' (' . $request->location_address . ')'; ?></td>
+          <td><?php echo $request->location_street . ', ' . $request->location_address . ', ' . $request->location_city . ', ' . $request->location_postal_code; ?></td>
           <td><?php echo $request->time_range; ?></td>
           <td><?php echo $request->description; ?></td>
           <td><?php echo $request->technician_name ? $request->technician_name : 'Non assigné'; ?></td>
