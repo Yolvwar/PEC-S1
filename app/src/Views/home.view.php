@@ -52,6 +52,11 @@ include_once __DIR__ . '/../Helpers/session_helper.php';
             </ul>
           </li>
           <li class="navbar__item">
+            <a href="/admin">
+              <i class="fas fa-tachometer-alt "></i> dashboard
+            </a>
+          </li>
+          <li class="navbar__item">
             <a href="/logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
           </li>
         <?php else : ?>

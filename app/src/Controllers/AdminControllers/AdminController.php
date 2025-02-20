@@ -209,7 +209,6 @@ class AdminController extends AbstractController
             $technician_id = $request->getPost('technician_id');
             $this->serviceRequestModel->assignTechnician($id, $technician_id);
 
-            // Récupérer les informations de la demande de service et de l'utilisateur
             $service_request = $this->serviceRequestModel->getById($id);
             $user = $this->userModel->getById($service_request->user_id);
 

@@ -156,10 +156,10 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="status-badge <?= $request->completed ? 'completed' : 'pending' ?>">
-                                            <i class="fas <?= $request->completed ? 'fa-check-circle' : 'fa-clock' ?>"></i>
-                                            <?= $request->completed ? 'Terminé' : 'En attente' ?>
-                                        </span>
+                                    <span class="status-badge <?= $request->completed ? 'completed' : ($request->technician_id ? 'pending' : 'waiting') ?>">
+                                        <i class="fas <?= $request->completed ? 'fa-check-circle' : ($request->technician_id ? 'fa-clock' : 'fa-hourglass-half') ?>"></i>
+                                        <?= $request->completed ? 'Terminé' : ($request->technician_id ? 'En cours' : 'En attente') ?>
+                                    </span>
                                     </td>
                                     <td>
                                         <div class="actions">
