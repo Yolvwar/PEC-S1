@@ -150,4 +150,20 @@ class ServiceRequest
     {
         return $this->dbConnexion->lastInsertId();
     }
+
+    public function getEvaluationsByServiceRequestId($service_request_id)
+  {
+    $this->dbConnexion->query("SELECT * FROM evaluations WHERE service_request_id = :service_request_id");
+    $this->dbConnexion->bind(':service_request_id', $service_request_id);
+
+    return $this->dbConnexion->resultSet();
+  }
+
+  public function getServiceRequestById($id)
+  {
+    $this->dbConnexion->query("SELECT * FROM service_requests WHERE id = :id");
+    $this->dbConnexion->bind(':id', $id);
+
+    return $this->dbConnexion->single();
+  }
 }

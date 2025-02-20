@@ -173,17 +173,102 @@
                         <p class="section-info">Un compte sera automatiquement créé avec ces informations</p>
                     </div>
 
-                    <div class="form-actions">
-                        <button type="reset" class="btn btn-secondary">
-                            <i class="fas fa-undo"></i> Réinitialiser
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-plus-circle"></i> Ajouter le technicien
-                        </button>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="password">
+                                <i class="fas fa-lock"></i>
+                                Mot de passe
+                            </label>
+                            <div class="password-input">
+                                <input type="password" id="password" name="password" required 
+                                       class="form-control" placeholder="••••••••">
+                                <i class="fas fa-eye toggle-password"></i>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirm_password">
+                                <i class="fas fa-lock"></i>
+                                Confirmer le mot de passe
+                            </label>
+                            <div class="password-input">
+                                <input type="password" id="confirm_password" name="confirm_password" 
+                                       required class="form-control" placeholder="••••••••">
+                                <i class="fas fa-eye toggle-password"></i>
+                            </div>
+                        </div>
                     </div>
-                </form>
+
+
+            <div class="form-section">
+                <h3><i class="fas fa-home"></i> Domicile de travail</h3>
+                <p class="section-info">Renseignez l'adresse du domicile de travail du technicien</p>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="location_street">
+                        <i class="fas fa-road"></i>
+                        Rue
+                    </label>
+                    <input type="text" id="location_street" name="location_street" required 
+                        class="form-control" placeholder="123 Rue Principale">
+                </div>
+
+                <div class="form-group">
+                    <label for="location_address">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Adresse complémentaire
+                    </label>
+                    <input type="text" id="location_address" name="location_address" required 
+                        class="form-control" placeholder="Appartement 1">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="location_city">
+                        <i class="fas fa-city"></i>
+                        Ville
+                    </label>
+                    <input type="text" id="location_city" name="location_city" required 
+                        class="form-control" placeholder="Ville">
+                </div>
+
+                <div class="form-group">
+                    <label for="location_postal_code">
+                        <i class="fas fa-envelope"></i>
+                        Code Postal
+                    </label>
+                    <input type="text" id="location_postal_code" name="location_postal_code" required 
+                        class="form-control" placeholder="12345">
+                </div>
+            </div>
+
+    <div class="form-actions">
+        <button type="reset" class="btn btn-secondary">
+            <i class="fas fa-undo"></i> Réinitialiser
+        </button>
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-plus-circle"></i> Ajouter le technicien
+        </button>
+    </div>
+</form>
             </div>
         </div>
     </main>
+
+    <script>
+        // Toggle password visibility
+        document.querySelectorAll('.toggle-password').forEach(icon => {
+            icon.addEventListener('click', function() {
+                const input = this.previousElementSibling;
+                const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                input.setAttribute('type', type);
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
+        });
+    </script>
 </body>
 </html>

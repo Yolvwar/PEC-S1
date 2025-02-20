@@ -59,7 +59,7 @@ class Devis
         return $base_price * $vehicle_multiplier;
     }
 
-    public function calculateFinalEstimate($preliminaryEstimate, $technicians_id) {
+    public function calculateFinalEstimate($preliminaryEstimate, $service_request_id, $technicians_id) {
 
         // utiliser api google maps pour calculer la distance entre le lieu de la réparation et le domicile du technicien
         // utiliser l'api google maps pour calculer le temps de trajet entre le lieu de la réparation et le domicile du technicien

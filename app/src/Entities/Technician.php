@@ -3,14 +3,17 @@
 namespace App\Entities;
 
 use App\Lib\Database\DatabaseConnexion;
+use App\Entities\Location;
 
 class Technician
 {
     private $dbConnexion;
+    private $location;
 
     public function __construct()
     {
         $this->dbConnexion = new DatabaseConnexion();
+        $this->location = new Location();
     }
 
     public function getAll()
@@ -35,19 +38,42 @@ class Technician
 
     public function create($data)
     {
-        $this->dbConnexion->query("INSERT INTO technicians (name, email, speciality) VALUES (:name, :email, :speciality)");
+
+        $location_id = $this->location->createAndReturnId(
+            $data['location_street'],
+            $data['location_address'],
+            $data['location_city'],
+            $data['location_postal_code']
+        );
+
+        $this->dbConnexion->query("INSERT INTO technicians (name, email, speciality, phone, status, experience, location_id) VALUES (:name, :email, :speciality, :phone, :status, :experience, :location_id)");
         $this->dbConnexion->bind(':name', $data['name']);
         $this->dbConnexion->bind(':email', $data['email']);
         $this->dbConnexion->bind(':speciality', $data['speciality']);
+        $this->dbConnexion->bind(':phone', $data['phone']);
+        $this->dbConnexion->bind(':status', $data['status']);
+        $this->dbConnexion->bind(':experience', $data['experience']);
+        $this->dbConnexion->bind(':location_id', $location_id);
         return $this->dbConnexion->execute();
     }
 
     public function update($id, $data)
     {
-        $this->dbConnexion->query("UPDATE technicians SET name = :name, email = :email, speciality = :speciality WHERE id = :id");
+        $location_id = $this->location->createAndReturnId(
+            $data['location_street'],
+            $data['location_address'],
+            $data['location_city'],
+            $data['location_postal_code']
+        );
+
+        $this->dbConnexion->query("UPDATE technicians SET name = :name, email = :email, speciality = :speciality, phone = :phone, status = :status, experience = :experience, location_id = :location_id WHERE id = :id");
         $this->dbConnexion->bind(':name', $data['name']);
         $this->dbConnexion->bind(':email', $data['email']);
         $this->dbConnexion->bind(':speciality', $data['speciality']);
+        $this->dbConnexion->bind(':phone', $data['phone']);
+        $this->dbConnexion->bind(':status', $data['status']);
+        $this->dbConnexion->bind(':experience', $data['experience']);
+        $this->dbConnexion->bind(':location_id', $location_id);
         $this->dbConnexion->bind(':id', $id);
 
         return $this->dbConnexion->execute();
@@ -55,9 +81,12 @@ class Technician
 
     public function delete($id)
     {
+        $this->dbConnexion->query("DELETE FROM service_requests WHERE technician_id = :id");
+        $this->dbConnexion->bind(':id', $id);
+        $this->dbConnexion->execute();
+
         $this->dbConnexion->query("DELETE FROM technicians WHERE id = :id");
         $this->dbConnexion->bind(':id', $id);
-
         return $this->dbConnexion->execute();
     }
     

@@ -115,7 +115,11 @@ class AdminController extends AbstractController
             exit;
         }
         $technician = $this->technicianModel->getById($id);
-        return $this->render('admin/technicians/edit', ['technician' => $technician]);
+        $location = $this->location->getById($technician->location_id);
+        return $this->render('admin/technicians/edit', [
+          'technician' => $technician,
+          'location' => $location
+      ]);
     }
 
     public function deleteTechnician(Request $request, $id): Response

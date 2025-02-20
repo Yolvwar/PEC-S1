@@ -48,12 +48,18 @@ INSERT INTO time_slots (time_range) VALUES
 ('14:00 - 16:00'),
 ('16:00 - 18:00');
 
+
 CREATE TABLE technicians (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    phone VARCHAR(20),
-    available BOOLEAN DEFAULT TRUE
+    email VARCHAR(255) NOT NULL,
+    speciality VARCHAR(255) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    available BOOLEAN DEFAULT TRUE,
+    status ENUM('available', 'busy', 'offline') NOT NULL,
+    experience INT NOT NULL,
+    location_id INT,
+    FOREIGN KEY (location_id) REFERENCES locations(id)
 );
 
 INSERT INTO technicians (name, email, phone) VALUES
@@ -97,4 +103,16 @@ CREATE TABLE devis (
     estimated_cost DECIMAL(10, 2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (service_request_id) REFERENCES service_requests(id)
+);
+
+
+CREATE TABLE devis (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    service_request_id INT NOT NULL,
+    preliminary_estimate DECIMAL(10,2) NOT NULL,
+    final_amount DECIMAL(10,2),
+    status ENUM('pending', 'accepted', 'rejected') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (service_request_id) REFERENCES service_requests(id) ON DELETE CASCADE
 );

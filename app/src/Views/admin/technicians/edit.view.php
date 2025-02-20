@@ -176,6 +176,55 @@
                         </div>
                     </div>
 
+                    <div class="form-section">
+                        <h3><i class="fas fa-home"></i> Domicile de travail</h3>
+                        <p class="section-info">Renseignez l'adresse du domicile de travail du technicien</p>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="location_street">
+                                <i class="fas fa-road"></i>
+                                Rue
+                            </label>
+                            <input type="text" id="location_street" name="location_street" required 
+                                   class="form-control" value="<?= $location->street ?? '' ?>"
+                                   placeholder="123 Rue Principale">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="location_address">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Adresse complémentaire
+                            </label>
+                            <input type="text" id="location_address" name="location_address" required 
+                                   class="form-control" value="<?= $location->address ?? '' ?>"
+                                   placeholder="Appartement 1">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="location_city">
+                                <i class="fas fa-city"></i>
+                                Ville
+                            </label>
+                            <input type="text" id="location_city" name="location_city" required 
+                                   class="form-control" value="<?= $location->city ?? '' ?>"
+                                   placeholder="Ville">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="location_postal_code">
+                                <i class="fas fa-envelope"></i>
+                                Code Postal
+                            </label>
+                            <input type="text" id="location_postal_code" name="location_postal_code" required 
+                                   class="form-control" value="<?= $location->postal_code ?? '' ?>"
+                                   placeholder="12345">
+                        </div>
+                    </div>
+
                     <div class="form-actions">
                         <button type="reset" class="btn btn-secondary">
                             <i class="fas fa-undo"></i> Réinitialiser
