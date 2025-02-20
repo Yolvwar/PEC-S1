@@ -50,7 +50,8 @@ CREATE TABLE technicians (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
-    phone VARCHAR(20)
+    phone VARCHAR(20),
+    available BOOLEAN DEFAULT TRUE
 );
 
 INSERT INTO technicians (name, email, phone) VALUES
@@ -63,7 +64,7 @@ CREATE TABLE service_requests (
     service_id INT NOT NULL,
     location_id INT NOT NULL,
     time_slot_id INT NOT NULL,
-    technician_id INT DEFAULT NULL,
+    technician_id INT,
     description TEXT,
     completed BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
