@@ -1632,4 +1632,207 @@
   margin: 0;
 }
 
+.technician-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.technician-info img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: var(--shadow-sm);
+}
+.technician-info div {
+  display: flex;
+  flex-direction: column;
+}
+.technician-info div .name {
+  font-weight: 500;
+  color: var(--text-color);
+}
+.technician-info div .email {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.specialty-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-light);
+  border-radius: 20px;
+  font-size: 0.875rem;
+  color: var(--text-color);
+}
+.specialty-badge i {
+  color: var(--primary-color);
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+.contact-info div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.contact-info div i {
+  color: var(--primary-color);
+  width: 16px;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+}
+.status-badge i {
+  font-size: 0.625rem;
+}
+.status-badge.available {
+  background: var(--success-color-light);
+  color: var(--success-color);
+}
+.status-badge.busy {
+  background: var(--warning-color-light);
+  color: var(--warning-color);
+}
+.status-badge.offline {
+  background: var(--danger-color-light);
+  color: var(--danger-color);
+}
+
+.technician-profile-header {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+}
+@media (max-width: 767px) {
+  .technician-profile-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+}
+.technician-profile-header .technician-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  box-shadow: var(--shadow-md);
+}
+.technician-profile-header .technician-info h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+  color: var(--text-color);
+}
+.technician-profile-header .specialty-badge.large {
+  font-size: 1rem;
+  padding: 0.75rem 1.25rem;
+}
+.technician-profile-header .specialty-badge.large i {
+  font-size: 1.125rem;
+}
+
+#status option[value=available] {
+  color: var(--success-color);
+}
+
+#status option[value=busy] {
+  color: var(--warning-color);
+}
+
+#status option[value=offline] {
+  color: var(--danger-color);
+}
+
+.onboarding-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+}
+.onboarding-header .onboarding-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1rem;
+  background: var(--primary-color-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.onboarding-header .onboarding-icon i {
+  font-size: 2rem;
+  color: var(--primary-color);
+}
+.onboarding-header h2 {
+  color: var(--text-color);
+  margin: 0 0 0.5rem 0;
+}
+.onboarding-header p {
+  color: var(--text-muted);
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.form-text {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.form-section {
+  margin: 2rem 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+.form-section h3 {
+  font-size: 1rem;
+  color: var(--text-color);
+  margin: 0 0 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.form-section h3 i {
+  color: var(--primary-color);
+}
+.form-section .section-info {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--primary-color-light);
+}
+.form-control:invalid {
+  border-color: var(--danger-color);
+}
+.form-control:invalid:focus {
+  box-shadow: 0 0 0 3px var(--danger-color-light);
+}
+
+select.form-control {
+  appearance: none;
+  background-image: url("data:image/svg+xml,...");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2.5rem;
+}
+
 /*# sourceMappingURL=main.css.map */
