@@ -41,14 +41,15 @@ class ServiceRequest
     public function create($data)
     {
         $this->dbConnexion->query(
-            "INSERT INTO service_requests (user_id, service_id, location_id, time_slot_id, description) 
-             VALUES (:user_id, :service_id, :location_id, :time_slot_id, :description)"
+            "INSERT INTO service_requests (user_id, service_id, location_id, time_slot_id, description, vehicle_type) 
+             VALUES (:user_id, :service_id, :location_id, :time_slot_id, :description, :vehicle_type)"
         );
 
         $this->dbConnexion->bind(':user_id', $data['user_id']);
         $this->dbConnexion->bind(':service_id', $data['service_id']);
         $this->dbConnexion->bind(':location_id', $data['location_id']);
         $this->dbConnexion->bind(':time_slot_id', $data['time_slot_id']);
+        $this->dbConnexion->bind(':vehicle_type', $data['vehicle_type']);
         $this->dbConnexion->bind(':description', $data['description']);
 
         return $this->dbConnexion->execute();
@@ -143,5 +144,10 @@ class ServiceRequest
         $this->dbConnexion->bind(':technician_id', $technician_id);
         $this->dbConnexion->bind(':service_request_id', $service_request_id);
         return $this->dbConnexion->execute();
+    }
+
+    public function getLastInsertId()
+    {
+        return $this->dbConnexion->lastInsertId();
     }
 }

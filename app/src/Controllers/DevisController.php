@@ -22,5 +22,17 @@ class DevisController extends AbstractController
         $this->location = new Location();
     }
 
+    public function process(Request $request): Response
+    {
+
+        return $this->render('user_devis', [
+            'title' => 'Créer un devis',
+            'services' => $this->service->getAll(),
+            'locations' => $this->location->getAll(),
+            'devis' => $this->devis->getDevisByUserId($_SESSION['user_id'])
+
+        ], 'user');
+    }
+
     
 }

@@ -26,8 +26,10 @@ INSERT INTO services (name, description) VALUES
 
 CREATE TABLE locations (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    address TEXT
+    street VARCHAR(255) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    city VARCHAR(255) NOT NULL,
+    postal_code VARCHAR(10) NOT NULL,
 );
 
 INSERT INTO locations (name, address) VALUES
@@ -85,6 +87,14 @@ CREATE TABLE evaluations (
     service_request_id INT NOT NULL,
     rating INT NOT NULL,
     comment TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (service_request_id) REFERENCES service_requests(id)
+);
+
+CREATE TABLE devis (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    service_request_id INT NOT NULL,
+    estimated_cost DECIMAL(10, 2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (service_request_id) REFERENCES service_requests(id)
 );
