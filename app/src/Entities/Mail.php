@@ -17,6 +17,8 @@ class Mail
 
     try {
       // Paramètres du serveur
+      $mail->CharSet = 'UTF-8';  // Ajout de l'encodage UTF-8
+      $mail->Encoding = 'base64'; // Ajout de l'encodage base64
       $mail->SMTPDebug = 0;
       $mail->isSMTP();
       $mail->Host = 'smtp.gmail.com';
@@ -31,7 +33,7 @@ class Mail
       $mail->Debugoutput = 'html'; // Afficher les messages de débogage en HTML
 
       // Destinataires
-      $mail->setFrom('pec.project.2025@gmail.com', '{ProjectName}');
+      $mail->setFrom('pec.project.2025@gmail.com', '{Doc2Wheels}');
       $mail->addAddress($to, 'User');
 
       // Contenu
