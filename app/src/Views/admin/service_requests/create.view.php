@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Service Request</title>
     <link rel="stylesheet" href="/css/admin.css">
 </head>
@@ -22,17 +24,33 @@
                 <?php endforeach; ?>
             </select>
 
-            <label for="location_id">Location:</label>
-            <select id="location_id" name="location_id" onchange="toggleCustomAddress(this)">
-                <?php foreach ($locations as $location): ?>
-                    <option value="<?= $location->id ?>"><?= $location->name ?> (<?= $location->address ?>)</option>
-                <?php endforeach; ?>
-                <option value="custom">Custom Address</option>
-            </select>
+            <div class="form-section">
+                <h3><i class="fas fa-map-marker-alt"></i> Adresse d'intervention</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="location_street">Rue</label>
+                        <input type="text" id="location_street" name="location_street" required class="form-control">
+                    </div>
 
-            <div id="custom_address" style="display:none;">
-                <label for="custom_address_input">Custom Address:</label>
-                <input type="text" id="custom_address_input" name="custom_address">
+                    <div class="form-group">
+                        <label for="location_address">Complément d'adresse</label>
+                        <input type="text" id="location_address" name="location_address" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="location_city">Ville</label>
+                        <input type="text" id="location_city" name="location_city" required class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location_postal_code">Code postal</label>
+                        <input type="text" id="location_postal_code" name="location_postal_code" 
+                               required class="form-control" pattern="[0-9]{5}">
+                    </div>
+                </div>
             </div>
 
             <label for="time_slot_id">Time Slot:</label>
@@ -47,16 +65,5 @@
             <button type="submit">Create</button>
         </form>
     </div>
-
-    <script>
-        function toggleCustomAddress(select) {
-            var customAddressDiv = document.getElementById('custom_address');
-            if (select.value === 'custom') {
-                customAddressDiv.style.display = 'block';
-            } else {
-                customAddressDiv.style.display = 'none';
-            }
-        }
-    </script>
 </body>
 </html>

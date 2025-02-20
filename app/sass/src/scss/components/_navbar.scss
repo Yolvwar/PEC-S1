@@ -70,6 +70,90 @@
             display: block;
         }
     }
+
+    .dropdown {
+        position: relative;
+
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            .fa-chevron-down {
+                font-size: 0.75rem;
+                transition: transform 0.2s;
+            }
+        }
+
+        &:hover {
+            .dropdown-toggle .fa-chevron-down {
+                transform: rotate(180deg);
+            }
+
+            .dropdown-menu {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+        }
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 0.5rem;
+        min-width: 180px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.2s;
+        list-style: none;
+
+        li {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            a {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                padding: 0.75rem 1rem;
+                color: var(--text-color);
+                border-radius: 6px;
+                transition: all 0.2s;
+
+                i {
+                    color: var(--primary-color);
+                    font-size: 1rem;
+                }
+
+                &:hover {
+                    background: var(--bg-light);
+                    color: var(--primary-color);
+                }
+            }
+        }
+    }
+
+    @include mobile {
+        .dropdown-menu {
+            position: static;
+            box-shadow: none;
+            opacity: 1;
+            visibility: visible;
+            transform: none;
+            padding: 0;
+            
+            li a {
+                padding-left: 2.5rem;
+            }
+        }
+    }
 }
 
 .navbar__burger {
