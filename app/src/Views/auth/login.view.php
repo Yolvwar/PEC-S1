@@ -98,7 +98,7 @@ include_once __DIR__ . '/../../Helpers/session_helper.php';
         <div class="auth-footer">
           <p>
             Pas de compte ?
-            <a href="./register.php">Inscrivez-vous</a>
+            <a href="./register">Inscrivez-vous</a>
           </p>
         </div>
       </div>
