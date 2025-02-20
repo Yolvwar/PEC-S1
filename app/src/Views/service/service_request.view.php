@@ -1,7 +1,3 @@
-<?php
-include_once __DIR__ . '/../../Helpers/session_helper.php';
-?>
-
 <h1 class="header">Demande de Réparation</h1>
 
 <?php flash('service_request') ?>
@@ -16,13 +12,17 @@ include_once __DIR__ . '/../../Helpers/session_helper.php';
       <option value="<?php echo $serviceType->id; ?>"><?php echo $serviceType->name; ?></option>
     <?php endforeach; ?>
   </select>
+  <label for="location_street">Rue :</label>
+  <input type="text" name="location_street" id="location_street" required>
 
-  <label for="location_id">Lieu d'intervention :</label>
-  <select name="location_id" id="location_id">
-    <?php foreach ($locations as $location): ?>
-      <option value="<?php echo $location->id; ?>"><?php echo $location->name . ' (' . $location->address . ')'; ?></option>
-    <?php endforeach; ?>
-  </select>
+  <label for="location_address">Adresse :</label>
+  <input type="text" name="location_address" id="location_address" required>
+
+  <label for="location_city">Ville :</label>
+  <input type="text" name="location_city" id="location_city" required>
+
+  <label for="location_postal_code">Code Postal :</label>
+  <input type="text" name="location_postal_code" id="location_postal_code" required>
 
   <label for="time_slot_id">Plage horaire disponible :</label>
   <select name="time_slot_id" id="time_slot_id">

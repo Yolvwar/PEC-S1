@@ -26,4 +26,15 @@ class Location
       $this->dbConnexion->bind(':address', $address);
       return $this->dbConnexion->execute();
   }
+
+  public function createAndReturnId($street, $address, $city, $postal_code)
+  {
+      $this->dbConnexion->query("INSERT INTO locations (street, address, city, postal_code) VALUES (:street, :address, :city, :postal_code)");
+      $this->dbConnexion->bind(':street', $street);
+      $this->dbConnexion->bind(':address', $address);
+      $this->dbConnexion->bind(':city', $city);
+      $this->dbConnexion->bind(':postal_code', $postal_code);
+      $this->dbConnexion->execute();
+      return $this->dbConnexion->lastInsertId();
+  }
 }

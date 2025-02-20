@@ -62,15 +62,23 @@ class ServiceRequest
     public function getServiceRequestsByUserId($user_id)
     {
         $this->dbConnexion->query("
-            SELECT sr.*, s.name AS service_name, l.name AS location_name, l.address AS location_address, ts.time_range
+            SELECT sr.*, 
+                   s.name AS service_name, 
+                   l.street AS location_street, 
+                   l.address AS location_address, 
+                   l.city AS location_city,
+                   l.postal_code AS location_postal_code,
+                   ts.time_range,
+                   t.name AS technician_name
             FROM service_requests sr
             JOIN services s ON sr.service_id = s.id
             JOIN locations l ON sr.location_id = l.id
             JOIN time_slots ts ON sr.time_slot_id = ts.id
+            LEFT JOIN technicians t ON sr.technician_id = t.id
             WHERE sr.user_id = :user_id
         ");
         $this->dbConnexion->bind(':user_id', $user_id);
-
+    
         return $this->dbConnexion->resultSet();
     }
 
