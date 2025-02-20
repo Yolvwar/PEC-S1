@@ -2533,168 +2533,127 @@ textarea.form-control:focus {
     min-width: 120px;
   }
 }
-.devis-page {
-  padding: calc(var(--navbar-height) + 2rem) 0 2rem 0;
-  min-height: calc(100vh - var(--navbar-height));
-  background: var(--bg-light);
-}
-.devis-page .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
-.devis-header {
-  margin-bottom: 2rem;
-}
-.devis-header h1 {
+.star-rating {
   display: flex;
-  align-items: center;
-  gap: 1rem;
-  color: var(--text-color);
-  font-size: 2rem;
+  flex-direction: row-reverse;
+  gap: 0.25rem;
 }
-.devis-header h1 i {
-  color: var(--primary-color);
+.star-rating input {
+  display: none;
+}
+.star-rating input:checked ~ label i {
+  color: #ffd700;
+}
+.star-rating label {
+  cursor: pointer;
+}
+.star-rating label i {
+  color: #ddd;
+  font-size: 1.2rem;
+  transition: color 0.2s ease;
+}
+.star-rating label:hover i, .star-rating label:hover ~ label i {
+  color: #ffd700;
 }
 
-.empty-state {
-  text-align: center;
-  padding: 4rem 2rem;
-  background: white;
-  border-radius: 12px;
-  box-shadow: var(--shadow-sm);
+.rating .fa-star {
+  color: #ddd;
+  font-size: 1.2rem;
 }
-.empty-state i {
-  font-size: 4rem;
+.rating .fa-star.active {
+  color: #ffd700;
+}
+
+.evaluation-display .evaluation-comment {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
   color: var(--text-muted);
-  margin-bottom: 1.5rem;
 }
-.empty-state h2 {
-  color: var(--text-color);
-  margin-bottom: 1rem;
+
+.inline-rating-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
 }
-.empty-state p {
+.inline-rating-form .star-rating {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  gap: 0.25rem;
+}
+.inline-rating-form .star-rating input {
+  display: none;
+}
+.inline-rating-form .star-rating input:checked ~ label i {
+  color: #ffd700;
+}
+.inline-rating-form .star-rating label {
+  cursor: pointer;
+}
+.inline-rating-form .star-rating label i {
+  font-size: 1rem;
+  color: #ddd;
+  transition: color 0.2s ease;
+}
+.inline-rating-form .star-rating label:hover i, .inline-rating-form .star-rating label:hover ~ label i {
+  color: #ffd700;
+}
+.inline-rating-form textarea {
+  width: 100%;
+  min-height: 60px;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  resize: vertical;
+  font-size: 0.9rem;
+}
+.inline-rating-form textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+.inline-rating-form .btn {
+  align-self: flex-end;
+  padding: 0.25rem 0.5rem;
+}
+
+.rating-display {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+.rating-display .stars {
+  display: flex;
+  justify-content: center;
+  gap: 0.25rem;
+}
+.rating-display .stars .fa-star {
+  font-size: 1rem;
+  color: #ddd;
+}
+.rating-display .stars .fa-star.active {
+  color: #ffd700;
+}
+.rating-display .comment {
+  font-size: 0.9rem;
   color: var(--text-muted);
-  margin-bottom: 2rem;
-}
-
-.devis-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 1.5rem;
-}
-
-.devis-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.devis-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-}
-.devis-card__header {
-  padding: 1.5rem;
-  border-bottom: 1px solid var(--border-color);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.devis-card__header .service-type {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-.devis-card__header .service-type i {
-  color: var(--primary-color);
-  font-size: 1.25rem;
-}
-.devis-card__header .service-type h3 {
-  color: var(--text-color);
-  font-size: 1.1rem;
   margin: 0;
+  text-align: center;
 }
-.devis-card__header .devis-date {
+
+.pending {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   color: var(--text-muted);
+  font-style: italic;
   font-size: 0.9rem;
 }
-.devis-card__header .devis-date i {
-  font-size: 1rem;
-}
-.devis-card__content {
-  padding: 1.5rem;
-}
-.devis-card__content .location-info,
-.devis-card__content .description,
-.devis-card__content .time-slot {
-  display: flex;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-}
-.devis-card__content .location-info i,
-.devis-card__content .description i,
-.devis-card__content .time-slot i {
-  color: var(--primary-color);
-  font-size: 1rem;
-  margin-top: 0.25rem;
-}
-.devis-card__content .location-info p,
-.devis-card__content .description p,
-.devis-card__content .time-slot p {
-  color: var(--text-color);
-  margin: 0;
-  line-height: 1.5;
-}
-.devis-card__content .description p {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.devis-card__footer {
-  padding: 1.5rem;
-  border-top: 1px solid var(--border-color);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.devis-card__footer .estimated-cost {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-.devis-card__footer .estimated-cost .label {
-  color: var(--text-muted);
+.pending i {
   font-size: 0.9rem;
-}
-.devis-card__footer .estimated-cost .amount {
-  color: var(--primary-color);
-  font-size: 1.25rem;
-  font-weight: 600;
 }
 
-@media (max-width: 767px) {
-  .devis-grid {
-    grid-template-columns: 1fr;
-  }
-  .devis-card__header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-  .devis-card__footer {
-    flex-direction: column;
-    gap: 1rem;
-  }
-  .devis-card__footer .btn {
-    width: 100%;
-  }
-}
 .settings-page {
   padding: calc(var(--navbar-height) + 2rem) 0 2rem 0;
   background: var(--bg-light);
@@ -2883,6 +2842,169 @@ textarea.form-control:focus {
 }
 .service-table__header th i {
   margin-left: 5px;
+}
+
+.devis-page {
+  padding: calc(var(--navbar-height) + 2rem) 0 2rem 0;
+  min-height: calc(100vh - var(--navbar-height));
+  background: var(--bg-light);
+}
+.devis-page .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.devis-header {
+  margin-bottom: 2rem;
+}
+.devis-header h1 {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--text-color);
+  font-size: 2rem;
+}
+.devis-header h1 i {
+  color: var(--primary-color);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+}
+.empty-state i {
+  font-size: 4rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+.empty-state h2 {
+  color: var(--text-color);
+  margin-bottom: 1rem;
+}
+.empty-state p {
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.devis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.devis-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.devis-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.devis-card__header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.devis-card__header .service-type {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.devis-card__header .service-type i {
+  color: var(--primary-color);
+  font-size: 1.25rem;
+}
+.devis-card__header .service-type h3 {
+  color: var(--text-color);
+  font-size: 1.1rem;
+  margin: 0;
+}
+.devis-card__header .devis-date {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.devis-card__header .devis-date i {
+  font-size: 1rem;
+}
+.devis-card__content {
+  padding: 1.5rem;
+}
+.devis-card__content .location-info,
+.devis-card__content .description,
+.devis-card__content .time-slot {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.devis-card__content .location-info i,
+.devis-card__content .description i,
+.devis-card__content .time-slot i {
+  color: var(--primary-color);
+  font-size: 1rem;
+  margin-top: 0.25rem;
+}
+.devis-card__content .location-info p,
+.devis-card__content .description p,
+.devis-card__content .time-slot p {
+  color: var(--text-color);
+  margin: 0;
+  line-height: 1.5;
+}
+.devis-card__content .description p {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.devis-card__footer {
+  padding: 1.5rem;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.devis-card__footer .estimated-cost {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.devis-card__footer .estimated-cost .label {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.devis-card__footer .estimated-cost .amount {
+  color: var(--primary-color);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+@media (max-width: 767px) {
+  .devis-grid {
+    grid-template-columns: 1fr;
+  }
+  .devis-card__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .devis-card__footer {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .devis-card__footer .btn {
+    width: 100%;
+  }
 }
 
 /*# sourceMappingURL=main.css.map */

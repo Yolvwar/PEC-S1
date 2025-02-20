@@ -164,4 +164,154 @@
       min-width: 120px;
     }
   }
+}
+
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 0.25rem;
+
+    input {
+        display: none;
+
+        &:checked ~ label i {
+            color: #ffd700;
+        }
+    }
+
+    label {
+        cursor: pointer;
+        
+        i {
+            color: #ddd;
+            font-size: 1.2rem;
+            transition: color 0.2s ease;
+        }
+
+        &:hover i,
+        &:hover ~ label i {
+            color: #ffd700;
+        }
+    }
+}
+
+.rating {
+    .fa-star {
+        color: #ddd;
+        font-size: 1.2rem;
+
+        &.active {
+            color: #ffd700;
+        }
+    }
+}
+
+.evaluation-display {
+    .evaluation-comment {
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+    }
+}
+
+// Styles pour le tableau d'évaluation
+.inline-rating-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem;
+
+    .star-rating {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: center;
+        gap: 0.25rem;
+
+        input {
+            display: none;
+
+            &:checked ~ label i {
+                color: #ffd700;
+            }
+        }
+
+        label {
+            cursor: pointer;
+            
+            i {
+                font-size: 1rem;
+                color: #ddd;
+                transition: color 0.2s ease;
+            }
+
+            &:hover i,
+            &:hover ~ label i {
+                color: #ffd700;
+            }
+        }
+    }
+
+    textarea {
+        width: 100%;
+        min-height: 60px;
+        padding: 0.5rem;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        resize: vertical;
+        font-size: 0.9rem;
+
+        &:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+    }
+
+    .btn {
+        align-self: flex-end;
+        padding: 0.25rem 0.5rem;
+    }
+}
+
+// Affichage de l'évaluation existante
+.rating-display {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem;
+
+    .stars {
+        display: flex;
+        justify-content: center;
+        gap: 0.25rem;
+
+        .fa-star {
+            font-size: 1rem;
+            color: #ddd;
+
+            &.active {
+                color: #ffd700;
+            }
+        }
+    }
+
+    .comment {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        margin: 0;
+        text-align: center;
+    }
+}
+
+// Style pour l'état en attente
+.pending {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 0.9rem;
+
+    i {
+        font-size: 0.9rem;
+    }
 } 
