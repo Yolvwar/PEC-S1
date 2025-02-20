@@ -1,0 +1,13 @@
+.service-table {
+  &__header {
+    th {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      i {
+        margin-left: 5px;
+      }
+    }
+  }
+}

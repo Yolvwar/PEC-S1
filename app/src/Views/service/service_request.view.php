@@ -73,17 +73,35 @@ include_once __DIR__ . '/../../Helpers/session_helper.php';
         </div>
 
         <div class="form-group">
-          <label for="location_id">
-            <i class="fas fa-map-marker-alt"></i>
-            Lieu d'intervention
+          <label for="street">
+            <i class="fas fa-road"></i>
+            Rue
           </label>
-          <select name="location_id" id="location_id" required>
-            <?php foreach ($locations as $location): ?>
-              <option value="<?php echo $location->id; ?>">
-                <?php echo $location->name . ' (' . $location->address . ')'; ?>
-              </option>
-            <?php endforeach; ?>
-          </select>
+          <input type="text" name="street" id="street" required>
+        </div>
+
+        <div class="form-group">
+          <label for="address">
+            <i class="fas fa-map-marker-alt"></i>
+            Adresse complémentaire
+          </label>
+          <input type="text" name="address" id="address" required>
+        </div>
+
+        <div class="form-group">
+          <label for="city">
+            <i class="fas fa-city"></i>
+            Ville
+          </label>
+          <input type="text" name="city" id="city" required>
+        </div>
+
+        <div class="form-group">
+          <label for="postal_code">
+            <i class="fas fa-mail-bulk"></i>
+            Code Postal
+          </label>
+          <input type="text" name="postal_code" id="postal_code" required>
         </div>
 
         <div class="form-group">

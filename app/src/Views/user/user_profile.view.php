@@ -83,32 +83,54 @@ include_once __DIR__ . '/../../Helpers/session_helper.php';
           </div>
           
           <div class="service-table-wrapper">
-            <table class="service-table">
-              <thead>
-                <tr>
-                  <th><i class="fas fa-wrench"></i> Service</th>
-                  <th><i class="fas fa-map-marker-alt"></i> Lieu</th>
-                  <th><i class="fas fa-clock"></i> Horaire</th>
-                  <th><i class="fas fa-comment"></i> Description</th>
-                  <th><i class="fas fa-user-cog"></i> Technicien</th>
-                  <th><i class="fas fa-calendar"></i> Date</th>
-                  <th><i class="fas fa-star"></i> Évaluation</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php foreach ($serviceRequests as $request): ?>
-                  <tr>
-                    <td><?php echo $request->service_name; ?></td>
-                    <td><?php echo $request->location_name . ' (' . $request->location_address . ')'; ?></td>
-                    <td><?php echo $request->time_range; ?></td>
-                    <td><?php echo $request->description; ?></td>
-                    <td>
-                      <span class="technician">
-                        <?php echo $request->technician_name ? $request->technician_name : 'Non assigné'; ?>
-                      </span>
-                    </td>
-                    <td><?php echo $request->created_at; ?></td>
-                    <td>
+          <table class="service-table">
+  <thead>
+    <tr>
+      <th>Service <i class="fas fa-wrench"></i></th>
+      <th>Lieu <i class="fas fa-map-marker-alt"></i></th>
+      <th>Horaire <i class="fas fa-clock"></i></th>
+      <th>Description <i class="fas fa-comment"></i></th>
+      <th>Technicien <i class="fas fa-user-cog"></i></th>
+      <th>Date <i class="fas fa-calendar"></i></th>
+      <th>Évaluation <i class="fas fa-star"></i></th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach ($serviceRequests as $request): ?>
+      <tr>
+        <td><?php echo $request->service_name; ?></td>
+        <td>
+          <?php 
+            $address_parts = [];
+            
+            if (!empty($request->location_street)) {
+              $address_parts[] = htmlspecialchars($request->location_street);
+            }
+            
+            if (!empty($request->location_address)) {
+              $address_parts[] = htmlspecialchars($request->location_address);
+            }
+            
+            if (!empty($request->location_city)) {
+              $address_parts[] = htmlspecialchars($request->location_city);
+            }
+            
+            if (!empty($request->location_postal_code)) {
+              $address_parts[] = htmlspecialchars($request->location_postal_code);
+            }
+            
+            echo !empty($address_parts) ? implode(', ', $address_parts) : 'Adresse non spécifiée';
+          ?>
+        </td>
+        <td><?php echo $request->time_range; ?></td>
+        <td><?php echo $request->description; ?></td>
+        <td>
+          <span class="technician">
+            <?php echo $request->technician_name ? $request->technician_name : 'Non assigné'; ?>
+          </span>
+        </td>
+        <td><?php echo $request->created_at; ?></td>
+        <td>
                       <?php if ($request->completed): ?>
                         <?php if (!empty($evaluations[$request->id])): ?>
                           <div class="evaluation-display">

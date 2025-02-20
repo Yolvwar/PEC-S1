@@ -2206,5 +2206,13 @@ textarea.form-control:focus {
     min-width: 120px;
   }
 }
+.service-table__header th {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.service-table__header th i {
+  margin-left: 5px;
+}
 
 /*# sourceMappingURL=main.css.map */
