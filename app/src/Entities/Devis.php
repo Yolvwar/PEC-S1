@@ -6,6 +6,8 @@ use App\Lib\Database\DatabaseConnexion;
 
 class Devis
 {
+    private $dbConnexion;
+
     public function __construct()
     {
         $this->dbConnexion = new DatabaseConnexion();
@@ -24,17 +26,45 @@ class Devis
         return $this->dbConnexion->single();
     }
 
+    public function getDevisByUserId($user_id)
+{
+    $this->dbConnexion->query("
+        SELECT d.*, sr.description, s.name AS service_name, l.address AS location_address
+        FROM devis d
+        JOIN service_requests sr ON d.service_request_id = sr.id
+        JOIN services s ON sr.service_id = s.id
+        JOIN locations l ON sr.location_id = l.id
+        WHERE sr.user_id = :user_id
+    ");
+    $this->dbConnexion->bind(':user_id', $user_id);
+    return $this->dbConnexion->resultSet();
+}
+
     public function create($data)
     {
-        $this->dbConnexion->query(
-            "INSERT INTO devis (user_id, service_id, vehicle_model, location_id, estimated_cost) 
-             VALUES (:user_id, :service_id, :vehicle_model, :location_id, :estimated_cost)"
-        );
-        $this->dbConnexion->bind(':user_id', $data['user_id']);
-        $this->dbConnexion->bind(':service_id', $data['service_id']);
-        $this->dbConnexion->bind(':vehicle_model', $data['vehicle_model']);
-        $this->dbConnexion->bind(':location_id', $data['location_id']);
-        $this->dbConnexion->bind(':estimated_cost', $data['estimated_cost']);
+        $this->dbConnexion->query("
+            INSERT INTO devis (service_request_id, estimated_cost)
+            VALUES (:service_request_id, :estimated_cost)
+        ");
+        $this->dbConnexion->bind(':service_request_id', $data['service_request_id']);
+        $this->dbConnexion->bind(':estimated_cost', $data['preliminary_estimate']);
         return $this->dbConnexion->execute();
+    }
+
+    public function calculatePreliminaryEstimate($service_id, $vehicleModel) {
+        
+        $base_price = 75;
+        $vehicle_multiplier = ($vehicleModel == 'moto') ? 1.3 : 1.0;
+
+        return $base_price * $vehicle_multiplier;
+    }
+
+    public function calculateFinalEstimate($preliminaryEstimate, $technicians_id) {
+
+        // utiliser api google maps pour calculer la distance entre le lieu de la réparation et le domicile du technicien
+        // utiliser l'api google maps pour calculer le temps de trajet entre le lieu de la réparation et le domicile du technicien
+        // utiliser l'api google maps pour calculer le coût du trajet entre le lieu de la réparation et le domicile du technicien
+
+
     }
 }

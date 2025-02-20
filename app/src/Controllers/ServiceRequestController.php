@@ -8,6 +8,7 @@ use App\Entities\Technician;
 use App\Entities\Evaluation;
 use App\Entities\Location;
 use App\Entities\TimeSlot;
+use App\Entities\Devis;
 use App\Lib\Http\Request;
 use App\Lib\Http\Response;
 use App\Lib\Controllers\AbstractController;
@@ -22,6 +23,7 @@ class ServiceRequestController extends AbstractController
   private $evaluation;
   private $location;
   private $timeSlot;
+  private $devis;
 
   public function __construct()
   {
@@ -31,6 +33,7 @@ class ServiceRequestController extends AbstractController
     $this->evaluation = new Evaluation();
     $this->location = new Location();
     $this->timeSlot = new TimeSlot();
+    $this->devis = new Devis();
   }
 
   public function process(Request $request): Response
@@ -58,6 +61,7 @@ class ServiceRequestController extends AbstractController
     $data = [
         'user_id' => $_SESSION['user_id'],
         'service_id' => $request->getPost('service_id'),
+        'vehicle_type' => $request->getPost('vehicle_type'),
         'location_street' => $request->getPost('location_street'),
         'location_address' => $request->getPost('location_address'),
         'location_city' => $request->getPost('location_city'),
@@ -71,11 +75,22 @@ class ServiceRequestController extends AbstractController
         redirect('/service_request');
     }
 
-    // Create location and get its ID
     $location_id = $this->location->createAndReturnId($data['location_street'], $data['location_address'], $data['location_city'], $data['location_postal_code']);
     $data['location_id'] = $location_id;
 
+    $data['preliminary_estimate'] = $this->devis->calculatePreliminaryEstimate($data['service_id'], $data['vehicle_type']);
+
     if ($this->serviceRequest->create($data)) {
+
+        $service_request_id = $this->serviceRequest->getLastInsertId();
+
+        $devis_data = [
+            'service_request_id' => $service_request_id,
+            'preliminary_estimate' => $data['preliminary_estimate']
+        ];
+
+        $this->devis->create($devis_data);
+
         flash("service_request", "Demande de service créée avec succès.");
         redirect('/home');
     } else {

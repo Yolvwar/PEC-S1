@@ -35,6 +35,12 @@
     "controller": "UserController@process"
   },
   {
+    "path": "/user/devis",
+    "methods": ["GET"],
+    "controller": "DevisController@process"
+
+  },
+  {
     "path": "/technician/accept",
     "methods": ["POST"],
     "controller": "TechnicianController"
