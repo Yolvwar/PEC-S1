@@ -17,21 +17,20 @@ class ServiceRequest
     {
         $this->dbConnexion->query("
             SELECT sr.*, 
-                   u.name AS user_name, 
-                   u.email AS user_email,
                    s.name AS service_name, 
-                   l.name AS location_name, 
+                   l.street AS location_street, 
                    l.address AS location_address, 
-                   ts.time_range, 
+                   l.city AS location_city,
+                   l.postal_code AS location_postal_code,
+                   ts.time_range,
                    t.name AS technician_name
             FROM service_requests sr
-            JOIN users u ON sr.user_id = u.id
             JOIN services s ON sr.service_id = s.id
             JOIN locations l ON sr.location_id = l.id
             JOIN time_slots ts ON sr.time_slot_id = ts.id
             LEFT JOIN technicians t ON sr.technician_id = t.id
         ");
-
+    
         return $this->dbConnexion->resultSet();
     }
 
