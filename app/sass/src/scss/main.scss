@@ -15,6 +15,6 @@
 @use "components/home";
 @use "components/admin";
 @use "components/profile";
-@use "components/devis";
 @use "components/settings";
-@use 'components/service-table';
+@use "components/service-table";
+@use "components/_devis";
