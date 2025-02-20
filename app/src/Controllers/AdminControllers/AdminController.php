@@ -23,6 +23,7 @@ class AdminController extends AbstractController
   private $technicianModel;
   private $location;
   private $timeSlot;
+  private $mail;
 
   public function __construct()
   {
@@ -32,6 +33,7 @@ class AdminController extends AbstractController
     $this->serviceRequestModel = new ServiceRequest();
     $this->technicianModel = new Technician();
     $this->timeSlot = new TimeSlot();
+    $this->mail = new Mail();
   }
 
   public function process(Request $request): Response
@@ -198,20 +200,29 @@ class AdminController extends AbstractController
   }
 
   public function assignTechnician(Request $request, $id): Response
-  {
-      if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-          $technician_id = $request->getPost('technician_id');
-          $this->serviceRequestModel->assignTechnician($id, $technician_id);
-          header('Location: /admin/service_requests');
-          exit;
-      }
-      $service_request = $this->serviceRequestModel->getById($id);
-      $technicians = $this->technicianModel->getAll();
-      return $this->render('admin/service_requests/assign_technician', [
-          'service_request' => $service_request,
-          'technicians' => $technicians
-      ]);
-  }
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $technician_id = $request->getPost('technician_id');
+            $this->serviceRequestModel->assignTechnician($id, $technician_id);
+
+            // Récupérer les informations de la demande de service et de l'utilisateur
+            $service_request = $this->serviceRequestModel->getById($id);
+            $user = $this->userModel->getById($service_request->user_id);
+
+            // Envoyer un email à l'utilisateur
+            $this->mail->sendServiceRequestAcceptedMail($user, $service_request);
+
+            header('Location: /admin/service_requests');
+            exit;
+        }
+        $service_request = $this->serviceRequestModel->getById($id);
+        $technicians = $this->technicianModel->getAll();
+
+        return $this->render('admin/service_requests/assign_technician', [
+            'service_request' => $service_request,
+            'technicians' => $technicians
+        ]);
+    }
 
   // -----------------Services-----------------
 
