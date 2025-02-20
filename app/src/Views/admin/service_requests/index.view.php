@@ -16,7 +16,7 @@
                             <p><strong>Name:</strong> <?= $request->user_name ?></p>
                             <p><strong>Email:</strong> <?= $request->user_email ?></p>
                             <p><strong>Service:</strong> <?= $request->service_name ?></p>
-                            <p><strong>Location:</strong> <?= $request->location_name . ', ' . $request->location_address ?></p>
+                            <p><strong>Location:</strong> <?= $request->location_street . ', ' . $request->location_address . ', ' . $request->location_city . ', ' . $request->location_postal_code ?></p>
                             <p><strong>Technician assigned:</strong> <?= $request->technician_name ?></p>
                             <p><strong>Time Slot:</strong> <?= $request->time_range ?></p>
                             <p><strong>Description:</strong> <?= $request->description ?></p>
