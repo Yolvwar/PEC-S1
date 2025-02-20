@@ -58,4 +58,14 @@ class Mail
       return false;
     }
   }
+
+  public static function sendServiceRequestAcceptedMail($user, $serviceRequest)
+  {
+    $to = $user->email;
+    $subject = "Demande de service acceptée";
+    $body = "Bonjour " . $user->name . ",<br><br>
+    Votre demande de réparation avec l'id " . $serviceRequest->id . " a bien été acceptée.<br>
+    Un technicien va très prochainement vous contactez.<br><br>";
+    return self::sendMail($to, $subject, $body);
+  }
 }

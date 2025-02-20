@@ -26,17 +26,4 @@ class TechnicianController extends AbstractController
 
     return new Response('Technician action processed', 200);
   }
-
-  public function acceptServiceRequest(Request $request): Response
-  {
-    $service_request_id = $request->getPost('service_request_id');
-    $technician_id = $request->getPost('technician_id');
-
-    if ($this->technician->acceptServiceRequest($technician_id, $service_request_id)) {
-      flash("admin", "Technicien assigné avec succès.");
-    } else {
-      flash("admin", "Une erreur s'est produite lors de l'assignation du technicien.");
-    }
-    redirect('/admin/administrative-commands');
-  }
 }

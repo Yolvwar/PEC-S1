@@ -18,6 +18,7 @@ class ServiceRequest
         $this->dbConnexion->query("
             SELECT sr.*, 
                    u.name AS user_name, 
+                   u.email AS user_email,
                    s.name AS service_name, 
                    l.name AS location_name, 
                    l.address AS location_address, 
@@ -30,7 +31,7 @@ class ServiceRequest
             JOIN time_slots ts ON sr.time_slot_id = ts.id
             LEFT JOIN technicians t ON sr.technician_id = t.id
         ");
-    
+
         return $this->dbConnexion->resultSet();
     }
 
@@ -73,23 +74,6 @@ class ServiceRequest
         return $this->dbConnexion->resultSet();
     }
 
-    public function markServiceRequestAsCompleted($id)
-    {
-        $this->dbConnexion->query("UPDATE service_requests SET completed = TRUE WHERE id = :id");
-        $this->dbConnexion->bind(':id', $id);
-
-        return $this->dbConnexion->execute();
-    }
-
-    public function isServiceRequestCompleted($id)
-    {
-        $this->dbConnexion->query("SELECT completed FROM service_requests WHERE id = :id");
-        $this->dbConnexion->bind(':id', $id);
-
-        $row = $this->dbConnexion->single();
-        return $row->completed;
-    }
-
     public function delete($id)
     {
         $this->dbConnexion->query("DELETE FROM service_requests WHERE id = :id");
@@ -107,6 +91,46 @@ class ServiceRequest
         $this->dbConnexion->bind(':time_slot_id', $data['time_slot_id']);
         $this->dbConnexion->bind(':description', $data['description']);
         $this->dbConnexion->bind(':id', $id);
+        return $this->dbConnexion->execute();
+    }
+
+    public function confirmedServiceRequest($id)
+    {
+        $this->dbConnexion->query("UPDATE service_requests SET confirmed = TRUE WHERE id = :id");
+        $this->dbConnexion->bind(':id', $id);
+
+        return $this->dbConnexion->execute();
+    }
+
+    public function complete($id)
+    {
+        $this->dbConnexion->query("UPDATE service_requests SET completed = TRUE WHERE id = :id");
+        $this->dbConnexion->bind(':id', $id);
+        $this->dbConnexion->execute();
+
+        $this->dbConnexion->query("SELECT technician_id FROM service_requests WHERE id = :id");
+        $this->dbConnexion->bind(':id', $id);
+        $technician_id = $this->dbConnexion->single()->technician_id;
+
+        $this->dbConnexion->query("UPDATE technicians SET available = TRUE WHERE id = :technician_id");
+        $this->dbConnexion->bind(':technician_id', $technician_id);
+        return $this->dbConnexion->execute();
+    }
+
+    public function isServiceRequestCompleted($id)
+    {
+        $this->dbConnexion->query("SELECT completed FROM service_requests WHERE id = :id");
+        $this->dbConnexion->bind(':id', $id);
+
+        $row = $this->dbConnexion->single();
+        return $row->completed;
+    }
+
+    public function assignTechnician($service_request_id, $technician_id)
+    {
+        $this->dbConnexion->query("UPDATE service_requests SET technician_id = :technician_id WHERE id = :service_request_id");
+        $this->dbConnexion->bind(':technician_id', $technician_id);
+        $this->dbConnexion->bind(':service_request_id', $service_request_id);
         return $this->dbConnexion->execute();
     }
 }
