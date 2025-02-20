@@ -1,0 +1,167 @@
+.profile-grid {
+  display: grid;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.profile-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    
+    .profile-icon {
+      font-size: 2.5rem;
+      color: #007bff;
+    }
+  }
+}
+
+.profile-info {
+  display: grid;
+  gap: 1.5rem;
+
+  .info-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    i {
+      color: #007bff;
+      font-size: 1.2rem;
+    }
+
+    div {
+      label {
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin-bottom: 0.2rem;
+      }
+
+      p {
+        font-size: 1.1rem;
+        color: #212529;
+      }
+    }
+  }
+}
+
+.service-history-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .service-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+
+    i {
+      font-size: 2rem;
+      color: #007bff;
+    }
+  }
+}
+
+.service-table-wrapper {
+  overflow-x: auto;
+}
+
+.service-table {
+  width: 100%;
+  border-collapse: collapse;
+  
+  th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e9ecef;
+  }
+
+  th {
+    background: #f8f9fa;
+    color: #495057;
+    font-weight: 600;
+
+    i {
+      margin-right: 0.5rem;
+      color: #007bff;
+    }
+  }
+
+  .technician {
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    background: #f8f9fa;
+    font-size: 0.9rem;
+  }
+}
+
+.evaluation-display {
+  .rating {
+    color: #ffc107;
+    margin-bottom: 0.5rem;
+
+    .active {
+      color: #ffc107;
+    }
+  }
+
+  .evaluation-comment {
+    font-size: 0.9rem;
+    color: #6c757d;
+  }
+}
+
+.evaluation-form {
+  display: grid;
+  gap: 1rem;
+
+  .rating-input {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    select {
+      padding: 0.3rem;
+      border-radius: 4px;
+    }
+  }
+
+  textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .btn {
+    justify-self: start;
+  }
+}
+
+.pending-evaluation {
+  color: #adb5bd;
+  font-style: italic;
+  
+  i {
+    margin-right: 0.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .service-table {
+    th, td {
+      min-width: 120px;
+    }
+  }
+} 

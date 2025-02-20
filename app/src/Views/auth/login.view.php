@@ -13,7 +13,7 @@ include_once __DIR__ . '/../../Helpers/session_helper.php';
   <body>
   <nav class="navbar">
       <div class="navbar__container">
-        <a href="/src/Views/index.html" class="navbar__logo">Doc 2 Wheels</a>
+        <a href="/home" class="navbar__logo">Doc 2 Wheels</a>
 
         <button class="navbar__burger">
           <span></span>
@@ -23,10 +23,10 @@ include_once __DIR__ . '/../../Helpers/session_helper.php';
 
         <ul class="navbar__menu">
           <li class="navbar__item">
-            <a href="/"><i class="fas fa-home"></i> Accueil</a>
+            <a href="/home"><i class="fas fa-home"></i> Accueil</a>
           </li>
           <li class="navbar__item">
-            <a href="/repair"><i class="fas fa-wrench"></i> Réparation</a>
+            <a href="/service_request"><i class="fas fa-wrench"></i> Réparation</a>
           </li>
           <li class="navbar__item active">
             <a href="/login"><i class="fas fa-sign-in-alt"></i> Connexion</a>

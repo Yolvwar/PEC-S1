@@ -8,6 +8,7 @@ class DatabaseConnexion
 {
     private \PDO $pdo_connexion;
     private \PDOStatement $stmt;
+    private $dbh;
 
     public function __construct()
     {
@@ -83,6 +84,11 @@ class DatabaseConnexion
     //Get row count
     public function rowCount(){
         return $this->stmt->rowCount();
+    }
+
+    public function lastInsertId()
+    {
+        return $this->pdo_connexion->lastInsertId();
     }
 
 }
