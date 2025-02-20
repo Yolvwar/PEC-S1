@@ -11,7 +11,9 @@
 <body>
     <nav class="navbar">
         <div class="navbar__container">
-            <a href="/" class="navbar__logo">Doc 2 Wheels</a>
+        <a href="/" class="navbar__logo">
+        <img src="/sass/images/Doc2Wheels-logo-1.png" alt="Doc 2 Wheels Logo" style="height: 65px;">
+      </a>
 
             <button class="navbar__burger">
                 <span></span>
