@@ -139,5 +139,11 @@
     "path": "/admin/service_requests/complete/:id",
     "methods": ["POST"],
     "controller": "AdminControllers\\AdminController@completeServiceRequest"
+  },
+  {
+    "path" : "/user/params",
+    "methods" : ["GET"],
+    "controller" : "UserController@paramsRender"
   }
+
 ]
