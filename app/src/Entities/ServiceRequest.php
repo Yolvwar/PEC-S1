@@ -1,16 +1,20 @@
 <?php
 
 namespace App\Entities;
+use App\Entities\Devis;
 
 use App\Lib\Database\DatabaseConnexion;
 
 class ServiceRequest
 {
     private $dbConnexion;
+    private $location;
 
     public function __construct()
     {
         $this->dbConnexion = new DatabaseConnexion();
+        $this->location = new Location();
+
     }
 
     public function getAll()
@@ -39,7 +43,14 @@ class ServiceRequest
     }
 
     public function create($data)
-    {
+    {   
+        $location_id = $this->location->createAndReturnId(
+            $data['location_street'],
+            $data['location_address'],
+            $data['location_city'],
+            $data['location_postal_code']
+        );
+
         $this->dbConnexion->query(
             "INSERT INTO service_requests (user_id, service_id, location_id, time_slot_id, description, vehicle_type) 
              VALUES (:user_id, :service_id, :location_id, :time_slot_id, :description, :vehicle_type)"
@@ -47,19 +58,54 @@ class ServiceRequest
 
         $this->dbConnexion->bind(':user_id', $data['user_id']);
         $this->dbConnexion->bind(':service_id', $data['service_id']);
-        $this->dbConnexion->bind(':location_id', $data['location_id']);
+        $this->dbConnexion->bind(':location_id', $location_id);
         $this->dbConnexion->bind(':time_slot_id', $data['time_slot_id']);
         $this->dbConnexion->bind(':vehicle_type', $data['vehicle_type']);
         $this->dbConnexion->bind(':description', $data['description']);
+        
+        $service_request_id = $this->dbConnexion->lastInsertId();
 
-        return $this->dbConnexion->execute();
+        $preliminaryEstimate = $this->calculatePreliminaryEstimate($data['service_id'], $data['vehicle_type']);
+        $this->dbConnexion->query(
+            "INSERT INTO devis (service_request_id, estimated_cost) 
+            VALUES (:service_request_id, :estimated_cost)"
+        );
+        $this->dbConnexion->bind(':service_request_id', $service_request_id);
+        $this->dbConnexion->bind(':estimated_cost', $preliminaryEstimate);
+        $this->dbConnexion->execute();
+
+        return $service_request_id;
     }
+
+    public function calculatePreliminaryEstimate($service_id, $vehicleModel) {
+        $base_price = 75;
+        $vehicle_multiplier = ($vehicleModel == 'moto') ? 1.3 : 1.0;
+    
+        return $base_price * $vehicle_multiplier;
+    }
+
 
     public function getById($id)
     {
-        $this->dbConnexion->query("SELECT * FROM service_requests WHERE id = :id");
+        $this->dbConnexion->query("
+            SELECT sr.*, 
+                   s.name AS service_name, 
+                   l.street AS location_street, 
+                   l.address AS location_address, 
+                   l.city AS location_city,
+                   l.postal_code AS location_postal_code,
+                   ts.time_range,
+                   t.name AS technician_name,
+                   l.city AS user_location
+            FROM service_requests sr
+            JOIN services s ON sr.service_id = s.id
+            JOIN locations l ON sr.location_id = l.id
+            JOIN time_slots ts ON sr.time_slot_id = ts.id
+            LEFT JOIN technicians t ON sr.technician_id = t.id
+            WHERE sr.id = :id
+        ");
         $this->dbConnexion->bind(':id', $id);
-
+    
         return $this->dbConnexion->single();
     }
 
@@ -95,11 +141,19 @@ class ServiceRequest
     }
 
     public function update($id, $data) {
+
+        $location_id = $this->location->createAndReturnId(
+            $data['location_street'],
+            $data['location_address'],
+            $data['location_city'],
+            $data['location_postal_code']
+        );
+        
         $this->dbConnexion->query(
             "UPDATE service_requests SET service_id = :service_id, location_id = :location_id, time_slot_id = :time_slot_id, description = :description WHERE id = :id"
         );
         $this->dbConnexion->bind(':service_id', $data['service_id']);
-        $this->dbConnexion->bind(':location_id', $data['location_id']);
+        $this->dbConnexion->bind(':location_id', $location_id);
         $this->dbConnexion->bind(':time_slot_id', $data['time_slot_id']);
         $this->dbConnexion->bind(':description', $data['description']);
         $this->dbConnexion->bind(':id', $id);
@@ -144,6 +198,17 @@ class ServiceRequest
         $this->dbConnexion->bind(':technician_id', $technician_id);
         $this->dbConnexion->bind(':service_request_id', $service_request_id);
         return $this->dbConnexion->execute();
+
+        // on recalcul le devis avec la position du technicien pour calculer new prix devis
+        $devis = new Devis();
+        $service_request = $this->getById($service_request_id);
+        $technician = (new Technician())->getById($technician_id);
+
+        $location_requester = (new Location())->getById($service_request->location_id);
+        $location_technician = (new Location())->getById($technician->location_id);
+        
+        $final_estimate = $devis->calculateFinalEstimate($location_requester->city, $location_technician->city);
+        return $devis->updateEstimate($service_request_id, $final_estimate);
     }
 
     public function getLastInsertId()

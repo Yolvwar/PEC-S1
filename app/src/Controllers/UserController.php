@@ -53,7 +53,7 @@ class UserController extends AbstractController
   public function paramsRender(Request $request): Response
   {
     return $this->render('user_param', [
-      'title' => 'Paramètres',
+      'title' => 'Paramètres Utilisateur',
     ], 'user');
   }
 }

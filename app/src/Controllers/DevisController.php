@@ -34,5 +34,20 @@ class DevisController extends AbstractController
         ], 'user');
     }
 
+    public function devis(Request $request): Response
+    {
+        $adressFrom = "Paris, France";
+        $adressTo = "Lyon, France";
+
+        $devis = $this->devis->getDistanceBetweenCities($adressFrom, $adressTo);
+
+        $test = $this->devis->calculateFinalEstimate($adressFrom, $adressTo);
+
+        return $this->render('devis', [
+            'title' => 'Créer un devis',
+            'devis' => $devis,
+            'test' => $test
+        ], 'test');
+    }
     
 }

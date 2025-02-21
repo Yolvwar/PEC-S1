@@ -10,6 +10,7 @@ use App\Entities\Location;
 use App\Entities\TimeSlot;
 use App\Lib\Http\Request;
 use App\Lib\Http\Response;
+use App\Entities\Devis;
 use App\Entities\Mail;
 use App\Lib\Controllers\AbstractController;
 
@@ -24,6 +25,7 @@ class AdminController extends AbstractController
   private $location;
   private $timeSlot;
   private $mail;
+  private $devis;
 
   public function __construct()
   {
@@ -34,6 +36,7 @@ class AdminController extends AbstractController
     $this->technicianModel = new Technician();
     $this->timeSlot = new TimeSlot();
     $this->mail = new Mail();
+    $this->devis = new Devis();
   }
 
   public function process(Request $request): Response
@@ -146,10 +149,6 @@ class AdminController extends AbstractController
   {
       if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           $data = $_POST;
-          if ($data['location_id'] === 'custom') {
-              $location_id = $this->location->create('Custom Address', $data['custom_address']);
-              $data['location_id'] = $location_id;
-          }
           $this->serviceRequestModel->create($data);
           header('Location: /admin/service_requests');
           exit;
@@ -169,25 +168,27 @@ class AdminController extends AbstractController
   }
 
   public function editServiceRequest(Request $request, $id): Response
-  {
-      if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-          $this->serviceRequestModel->update($id, $_POST);
-          header('Location: /admin/service_requests');
-          exit;
-      }
-      $user = $this->userModel->getById($id);
-      $serviceRequest = $this->serviceRequestModel->getById($id);
-      $services = $this->service->getAll();
-      $locations = $this->location->getAll();
-      $timeSlots = $this->timeSlot->getAll();
-      return $this->render('admin/service_requests/edit', [
-          'user' => $user,
-          'service_request' => $serviceRequest,
-          'services' => $services,
-          'locations' => $locations,
-          'timeSlots' => $timeSlots
-      ]);
-  }
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $this->serviceRequestModel->update($id, $_POST);
+        header('Location: /admin/service_requests');
+        exit;
+    }
+    $serviceRequest = $this->serviceRequestModel->getById($id);
+    $user = $this->userModel->getById($serviceRequest->user_id);
+    $location = $this->location->getById($serviceRequest->location_id);
+    $services = $this->service->getAll();
+    $timeSlots = $this->timeSlot->getAll();
+    $technicians = $this->technicianModel->getAll();
+    return $this->render('admin/service_requests/edit', [
+        'user' => $user,
+        'service_request' => $serviceRequest,
+        'location' => $location,
+        'services' => $services,
+        'technicians' => $technicians,
+        'timeSlots' => $timeSlots
+    ]);
+}
 
   public function deleteServiceRequest(Request $request, $id): Response
   {
@@ -211,9 +212,17 @@ class AdminController extends AbstractController
 
             $service_request = $this->serviceRequestModel->getById($id);
             $user = $this->userModel->getById($service_request->user_id);
+            $technician = $this->technicianModel->getById($technician_id);
 
             // Envoyer un email à l'utilisateur
             $this->mail->sendServiceRequestAcceptedMail($user, $service_request);
+
+            // Reevaluer le prix estimé
+              $devis = new Devis();
+              $preliminaryEstimate = $devis->getPreliminaryEstimateByServiceRequestId($id);
+              
+              $final_estimate = $devis->calculateFinalEstimate($service_request->user_location, $technician->location, $preliminaryEstimate);
+              $devis->updateEstimate($service_request->id, $final_estimate);
 
             header('Location: /admin/service_requests');
             exit;
