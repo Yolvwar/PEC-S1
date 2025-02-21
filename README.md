@@ -10,6 +10,7 @@
 
 1. [Convention de commits du projet : atomic commit](#convention-de-commits--commits-atomiques)
 2. [Procédure de lancement du projet en local](#procédure-de-lancement-du-projet-en-local)
+3. [Fonctionnalités présentes](#fonctionnalités-présentes-)
 3. [Commits Autosignés avec GPG](#commits-autosignés-avec-gpg)
 4. [Accéder à la base de données via MySQL CLI](#accéder-à-la-base-de-données-via-mysql-cli)
 
@@ -42,6 +43,86 @@ Voici quelques exemples de commits récurrents :
   ```
 
 **Soyez clair et concis**. Un bon message de commit décrit ce qui a été fait et pourquoi cela a été fait.
+
+## Fonctionnalités présentes :
+
+Fonctionnalités Présentes
+1. Authentification et Gestion des Utilisateurs
+Inscription et Connexion
+
+Système complet de création de compte avec vérification d'identité
+Gestion de profil utilisateur personnalisable
+Processus d'authentification sécurisé avec validation par email
+Interface de gestion du profil utilisateur
+
+2. Gestion des Demandes de Réparation
+Création de Demande
+
+Interface intuitive pour la sélection du type de service :
+
+Réparation standard
+Service d'entretien
+Dépannage d'urgence
+
+
+Système d'ajout d'une localisation
+Sélection de plages horaires disponibles
+
+Système de Devis
+
+Génération automatique de devis préliminaire avec tarification de base
+Calcul dynamique des coûts via GEOCODING (après assignation d'un technicien a la demande):
+Évaluation de la distance entre le technicien et le lieu d'intervention
+Ajustement automatique du prix en fonction de la distance
+
+Suivi et Communication
+
+Système de suivi des demandes avec historique complet
+Notifications automatiques par email pour :
+
+Confirmation de la demande
+Acceptation de l'intervention
+
+Système d'Évaluation
+
+Notation des prestations des techniciens
+Laissez un commentaire sur la prestations
+Collecte des retours d'expérience clients
+
+3. Interface Administrateur
+Tableau de Bord Analytique
+
+Suivi en temps réel des performances :
+
+Nombre total d'interventions
+Indices de satisfaction client
+Taux de fidélisation
+Graphiques
+Statistiques de retour client
+
+
+Analyse financière détaillée :
+
+Revenus par période
+Performance par technicien
+
+
+Gestion des Entités
+Interface administrative complète pour la gestion de :
+
+Comptes utilisateurs
+Demandes de réparation
+Équipe de techniciens
+Catalogue de services
+
+Gestion Opérationnelle
+
+Système d'attribution des interventions :
+
+Assignation des techniciens aux demandes
+Gestion des disponibilités
+Suivi des interventions en cours
+Validation et suivi des demandes de réparation
 
 ## Procédure de lancement du projet en local
 
