@@ -102,7 +102,7 @@ class RegisterController extends AbstractController
                       </p>
                       
                       <div style="text-align: center; margin: 2rem 0;">
-                          <a href="/login/account-activation?token=' . $this->user->getActivationToken($data['email']) . '"
+                          <a href="localhost:8080/login/account-activation?token=' . $this->user->getActivationToken($data['email']) . '"
                              style="display: inline-block; background: #007bff; color: white; text-decoration: none; 
                                     padding: 0.75rem 2rem; border-radius: 4px; font-weight: 500;">
                               ✨ Activer mon compte ✨
@@ -113,7 +113,7 @@ class RegisterController extends AbstractController
                           Si le bouton ne fonctionne pas, copiez et collez ce lien dans votre navigateur :
                       </p>
                       <p style="color: #007bff; word-break: break-all; font-size: 0.9rem; margin: 0 0 1rem 0; text-align: center;">
-                          /login/account-activation?token=' . $this->user->getActivationToken($data['email']) . '
+                          localhost:8080/login/account-activation?token=' . $this->user->getActivationToken($data['email']) . '
                       </p>
                   </div>
                   
