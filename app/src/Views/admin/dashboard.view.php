@@ -6,6 +6,7 @@
     <title>Dashboard Admin - Doc 2 Wheels</title>
     <link rel="stylesheet" href="../../../sass/dist/css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="admin-layout">
     <!-- Sidebar -->
@@ -94,7 +95,147 @@
                     </div>
                 </div>
             </div>
+
+            <section class="admin-dashboard">
+                <h1>Suivi et Analyse des Performances</h1>
+                <div class="dashboard-metrics">
+                    <div class="metric">
+                        <h2>Revenus générés</h2>
+                        <p><?= $revenueGenerated ?> €</p>
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                    <div class="metric">
+                        <h2>Revenus par technicien</h2>
+                        <ul>
+                            <?php foreach (array_slice($revenueByTechnician, 0, 10) as $index => $technician): ?>
+                                <li>
+                                    <?php if ($index === 0): ?>
+                                        <i class="fas fa-crown" style="color: gold;"></i>
+                                    <?php elseif ($index === 1): ?>
+                                        <i class="fas fa-crown" style="color: silver;"></i>
+                                    <?php elseif ($index === 2): ?>
+                                        <i class="fas fa-crown" style="color: bronze;"></i>
+                                    <?php endif; ?>
+                                    <?= htmlspecialchars($technician->name) ?>: <?= htmlspecialchars($technician->revenue) ?> €
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                    <div class="metric-group">
+                        <h2>Métriques d'Interventions</h2>
+                        <div class="metric">
+                            <h3>Nombre d'interventions</h3>
+                            <p><?= $numberOfInterventions ?></p>
+                        </div>
+                        <div class="metric">
+                            <h3>Taux de retour</h3>
+                            <p><?= $completedRate ?>%</p>
+                        </div>
+                        <div class="metric">
+                            <h3>Interventions à finir</h3>
+                            <p><?= $pendingInterventions ?></p>
+                        </div>
+                    </div>
+                    <div class="metric">
+                        <h2>Revenus par période</h2>
+                        
+                        <p>Ce mois-ci : <?= $revenueThisMonth ?> €</p>
+                        <p>Dernier mois : <?= $revenueLastMonth ?> €</p>
+                        <p>Dernière année : <?= $revenueLastYear ?> €</p>
+                    </div>
+                    <div class="metric">
+                        <h2>Satisfaction client</h2>
+                        <p>Moyenne : <?= round($customerSatisfaction, 2) ?>
+                            <i class="fas fa-star" style="color: gold;"></i>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Graphs Section -->
+                <div class="graphs">
+                    <h2>Graphiques</h2>
+                    <div class="graphs-container">
+                    <canvas id="interventionsChart"></canvas>
+                    <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
+
+    <style>
+        .graphs-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.graphs-container canvas {
+    flex: 1 1 calc(50% - 10px);
+    margin: 5px;
+}
+    </style>
+    
+
+    <script>
+        // Data for the charts
+        const interventionsData = {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [{
+                label: 'Nombre d\'interventions',
+                data: <?= json_encode(array_column($interventionsData, 'count')) ?>,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        const revenueData = {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [{
+                label: 'Revenus générés',
+                data: <?= json_encode(array_column($revenueData, 'revenue')) ?>,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        // Configurations for the charts
+        const configInterventions = {
+            type: 'line',
+            data: interventionsData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        };
+
+        const configRevenue = {
+            type: 'line',
+            data: revenueData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        };
+
+        // Render the charts
+        const interventionsChart = new Chart(
+            document.getElementById('interventionsChart'),
+            configInterventions
+        );
+
+        const revenueChart = new Chart(
+            document.getElementById('revenueChart'),
+            configRevenue
+        );
+    </script>
 </body>
 </html>

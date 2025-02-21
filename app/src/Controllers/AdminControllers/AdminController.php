@@ -12,6 +12,7 @@ use App\Lib\Http\Request;
 use App\Lib\Http\Response;
 use App\Entities\Devis;
 use App\Entities\Mail;
+use App\Entities\Evaluation;
 use App\Lib\Controllers\AbstractController;
 
 require_once __DIR__ . '/../../Helpers/session_helper.php';
@@ -26,6 +27,7 @@ class AdminController extends AbstractController
   private $timeSlot;
   private $mail;
   private $devis;
+  private $evaluation;
 
   public function __construct()
   {
@@ -37,6 +39,7 @@ class AdminController extends AbstractController
     $this->timeSlot = new TimeSlot();
     $this->mail = new Mail();
     $this->devis = new Devis();
+    $this->evaluation = new Evaluation();
   }
 
   public function process(Request $request): Response
@@ -47,11 +50,44 @@ class AdminController extends AbstractController
     $technicians = $this->technicianModel->getAll();
     //$timeSlots = $this->timeSlot->getTimeSlots();
 
+    $numberOfInterventions = $this->serviceRequestModel->countAll();
+    $customerSatisfaction = $this->evaluation->averageSatisfaction();
+    $completedRate = $this->serviceRequestModel->calculateCompletedRate();
+    $revenueGenerated = $this->serviceRequestModel->calculateRevenue();
+    $revenueByTechnician = $this->serviceRequestModel->calculateRevenueByTechnician();
+    $pendingInterventions = $this->serviceRequestModel->countPending();
+
+    $lastMonthStart = date('Y-m-01', strtotime('first day of last month'));
+    $lastMonthEnd = date('Y-m-t', strtotime('last day of last month'));
+    $lastYearStart = date('Y-01-01', strtotime('first day of January last year'));
+    $lastYearEnd = date('Y-12-31', strtotime('last day of December last year'));
+    $thisMonthStart = date('Y-m-01');
+    $thisMonthEnd = date('Y-m-t');
+
+    $revenueLastMonth = $this->serviceRequestModel->calculateRevenueByPeriod($lastMonthStart, $lastMonthEnd);
+    $revenueLastYear = $this->serviceRequestModel->calculateRevenueByPeriod($lastYearStart, $lastYearEnd);
+    $revenueThisMonth = $this->serviceRequestModel->calculateRevenueByPeriod($thisMonthStart, $thisMonthEnd);
+
+    // data pour les charts
+    $interventionsData = $this->serviceRequestModel->getInterventionsDataByMonth();
+    $revenueData = $this->serviceRequestModel->getRevenueDataByMonth();
+
     return $this->render('dashboard', [
       'title' => 'Tableau de Bord Admin',
       'users' => $users,
       'services' => $services,
-      'technicians' => $technicians
+      'technicians' => $technicians,
+      'numberOfInterventions' => $numberOfInterventions,
+      'customerSatisfaction' => $customerSatisfaction,
+      'completedRate' => $completedRate,
+      'revenueGenerated' => $revenueGenerated,
+      'revenueByTechnician' => $revenueByTechnician,
+      'pendingInterventions' => $pendingInterventions,
+      'revenueLastMonth' => $revenueLastMonth,
+      'revenueLastYear' => $revenueLastYear,
+      'revenueThisMonth' => $revenueThisMonth,
+      'interventionsData' => $interventionsData,
+      'revenueData' => $revenueData
       //'timeSlots' => $timeSlots
     ], 'admin');
   }

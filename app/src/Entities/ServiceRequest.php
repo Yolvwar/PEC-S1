@@ -223,4 +223,76 @@ class ServiceRequest
 
     return $this->dbConnexion->single();
   }
+
+  public function countAll()
+{
+    $this->dbConnexion->query("SELECT COUNT(*) as count FROM service_requests");
+    return $this->dbConnexion->single()->count;
+}
+
+public function calculateCompletedRate()
+{
+    $this->dbConnexion->query("
+        SELECT (COUNT(*) / (SELECT COUNT(*) FROM service_requests)) * 100 as return_rate 
+        FROM service_requests 
+        WHERE completed = '1'
+    ");
+    return $this->dbConnexion->single()->return_rate;
+}
+
+public function calculateRevenue()
+{
+    $this->dbConnexion->query("SELECT SUM(estimated_cost) as revenue FROM devis");
+    return $this->dbConnexion->single()->revenue;
+}
+
+public function calculateRevenueByTechnician()
+{
+    $this->dbConnexion->query("
+        SELECT t.name, SUM(d.estimated_cost) as revenue 
+        FROM devis d
+        JOIN service_requests sr ON d.service_request_id = sr.id
+        JOIN technicians t ON sr.technician_id = t.id
+        GROUP BY t.name
+    ");
+    return $this->dbConnexion->resultSet();
+}
+
+public function countPending()
+{
+    $this->dbConnexion->query("SELECT COUNT(*) as count FROM service_requests WHERE completed = '0'");
+    return $this->dbConnexion->single()->count;
+}
+
+public function calculateRevenueByPeriod($startDate, $endDate)
+{
+    $this->dbConnexion->query("
+        SELECT SUM(estimated_cost) as revenue 
+        FROM devis 
+        WHERE created_at BETWEEN :start_date AND :end_date
+    ");
+    $this->dbConnexion->bind(':start_date', $startDate);
+    $this->dbConnexion->bind(':end_date', $endDate);
+    return $this->dbConnexion->single()->revenue;
+}
+
+public function getInterventionsDataByMonth()
+{
+    $this->dbConnexion->query("
+        SELECT MONTH(created_at) as month, COUNT(*) as count 
+        FROM service_requests 
+        GROUP BY MONTH(created_at)
+    ");
+    return $this->dbConnexion->resultSet();
+}
+
+public function getRevenueDataByMonth()
+{
+    $this->dbConnexion->query("
+        SELECT MONTH(created_at) as month, SUM(estimated_cost) as revenue 
+        FROM devis 
+        GROUP BY MONTH(created_at)
+    ");
+    return $this->dbConnexion->resultSet();
+}
 }

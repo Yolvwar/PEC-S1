@@ -1429,6 +1429,46 @@
   font-size: 1.25rem;
 }
 
+.admin-dashboard {
+  padding: 2rem;
+}
+
+.dashboard-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.metric {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  flex: 1 1 calc(33.333% - 2rem);
+  text-align: center;
+}
+
+.metric h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.metric p {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.metric ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.metric ul li {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+
 .table-responsive {
   overflow-x: auto;
 }

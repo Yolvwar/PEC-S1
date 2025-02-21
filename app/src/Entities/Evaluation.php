@@ -43,4 +43,9 @@ class Evaluation
     $this->dbConnexion->execute();
     return $this->dbConnexion->rowCount() > 0;
   }
+public function averageSatisfaction()
+{
+    $this->dbConnexion->query("SELECT AVG(rating) as average_satisfaction FROM evaluations");
+    return $this->dbConnexion->single()->average_satisfaction;
+}
 }
