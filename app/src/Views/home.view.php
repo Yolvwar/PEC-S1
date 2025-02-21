@@ -16,7 +16,7 @@ include_once __DIR__ . '/../Helpers/session_helper.php';
 <body>
   <nav class="navbar">
     <div class="navbar__container">
-      <a href="/" class="navbar__logo">
+      <a href="/home" class="navbar__logo">
         <img src="/sass/images/Doc2Wheels-logo-1.png" alt="Doc 2 Wheels Logo" style="height: 65px;">
       </a>
 

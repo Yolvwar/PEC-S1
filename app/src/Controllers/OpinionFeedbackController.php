@@ -6,20 +6,18 @@ use App\Lib\Http\Response;
 use App\Lib\Controllers\AbstractController;
 require_once __DIR__ . '/../Helpers/session_helper.php';
 
-class OpinionFeedbackController {
-    public function process() {
+class OpinionFeedbackController extends AbstractController {
+    public function process(Request $request): Response {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->handlePost();
-        } else {
-            $this->showForm();
+            $this->handlePost($request);
         }
+
+        return $this->render('opinion-feedback', [
+            'title' => 'Opinion Feedback',
+        ]);
     }
 
-    private function showForm() {
-        include_once __DIR__ . '/../Views/auth/opinion-feedback.view.php';
-    }
-
-    private function handlePost() {
+    private function handlePost(Request $request) {
         $rating = $_POST['rating'];
         $comment = $_POST['comment'];
 

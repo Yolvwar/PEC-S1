@@ -57,46 +57,43 @@ class ServiceRequestController extends AbstractController
   }
 
   public function createServiceRequest(Request $request)
-{
-    $data = [
-        'user_id' => $_SESSION['user_id'],
-        'service_id' => $request->getPost('service_id'),
-        'vehicle_type' => $request->getPost('vehicle_type'),
-        'location_street' => $request->getPost('location_street'),
-        'location_address' => $request->getPost('location_address'),
-        'location_city' => $request->getPost('location_city'),
-        'location_postal_code' => $request->getPost('location_postal_code'),
-        'time_slot_id' => $request->getPost('time_slot_id'),
-        'description' => trim($request->getPost('description'))
-    ];
-
-    if (empty($data['service_id']) || empty($data['location_street']) || empty($data['location_address']) || empty($data['location_city']) || empty($data['location_postal_code']) || empty($data['time_slot_id']) || empty($data['description'])) {
-        flash("service_request", "Veuillez remplir tous les champs.");
-        redirect('/service_request');
-    }
-
-    $location_id = $this->location->createAndReturnId($data['location_street'], $data['location_address'], $data['location_city'], $data['location_postal_code']);
-    $data['location_id'] = $location_id;
-
-    $data['preliminary_estimate'] = $this->devis->calculatePreliminaryEstimate($data['service_id'], $data['vehicle_type']);
-
-    if ($this->serviceRequest->create($data)) {
-
-        $service_request_id = $this->serviceRequest->getLastInsertId();
-
-        $devis_data = [
-            'service_request_id' => $service_request_id,
-            'preliminary_estimate' => $data['preliminary_estimate']
-        ];
-
-        $this->devis->create($devis_data);
-
-        flash("service_request", "Demande de service créée avec succès.");
-        redirect('/home');
-    } else {
-        flash("service_request", "Une erreur s'est produite lors de la création de la demande de service.");
-    }
-}
+  {
+      $data = [
+          'user_id' => $_SESSION['user_id'],
+          'service_id' => $request->getPost('service_id'),
+          'vehicle_type' => $request->getPost('vehicle_type'),
+          'location_street' => $request->getPost('location_street'),
+          'location_address' => $request->getPost('location_address'),
+          'location_city' => $request->getPost('location_city'),
+          'location_postal_code' => $request->getPost('location_postal_code'),
+          'time_slot_id' => $request->getPost('time_slot_id'),
+          'description' => trim($request->getPost('description'))
+      ];
+  
+      if (empty($data['service_id']) || empty($data['location_street']) || empty($data['location_address']) || empty($data['location_city']) || empty($data['location_postal_code']) || empty($data['time_slot_id']) || empty($data['description'])) {
+          flash("service_request", "Veuillez remplir tous les champs.");
+          redirect('/service_request');
+      }
+  
+      $location_id = $this->location->createAndReturnId($data['location_street'], $data['location_address'], $data['location_city'], $data['location_postal_code']);
+      $data['location_id'] = $location_id;
+  
+      if ($this->serviceRequest->create($data)) {
+          $service_request_id = $this->serviceRequest->getLastInsertId();
+  
+          $devis_data = [
+              'service_request_id' => $service_request_id,
+              'preliminary_estimate' => $data['preliminary_estimate']
+          ];
+  
+          $this->devis->create($devis_data);
+  
+          flash("service_request", "Demande de service créée avec succès.");
+          redirect('/home');
+      } else {
+          //flash("service_request", "Une erreur s'est produite lors de la création de la demande de service.");
+      }
+  }
 
   
 

@@ -16,7 +16,7 @@ include_once __DIR__ . '/../Helpers/session_helper.php';
 <body>
   <nav class="navbar">
     <div class="navbar__container">
-      <a href="/" class="navbar__logo">
+      <a href="/home" class="navbar__logo">
         <img src="/sass/images/Doc2Wheels-logo-1.png" alt="Doc 2 Wheels Logo" style="height: 65px;">
       </a>
       <button class="navbar__burger">
@@ -30,9 +30,6 @@ include_once __DIR__ . '/../Helpers/session_helper.php';
         </li>
         <li class="navbar__item">
           <a href="/service_request"><i class="fas fa-wrench"></i> Réparation</a>
-        </li>
-        <li class="navbar__item">
-          <a href="/user_opinion-feedback" class="active"><i class="fas fa-comments"></i> Avis et Retour d'Expérience</a>
         </li>
         <?php if(isset($_SESSION['user_id'])) : ?>
           <li class="navbar__item">

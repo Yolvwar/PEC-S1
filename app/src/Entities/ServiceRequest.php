@@ -63,18 +63,10 @@ class ServiceRequest
         $this->dbConnexion->bind(':vehicle_type', $data['vehicle_type']);
         $this->dbConnexion->bind(':description', $data['description']);
         
-        $service_request_id = $this->dbConnexion->lastInsertId();
-
         $preliminaryEstimate = $this->calculatePreliminaryEstimate($data['service_id'], $data['vehicle_type']);
-        $this->dbConnexion->query(
-            "INSERT INTO devis (service_request_id, estimated_cost) 
-            VALUES (:service_request_id, :estimated_cost)"
-        );
-        $this->dbConnexion->bind(':service_request_id', $service_request_id);
-        $this->dbConnexion->bind(':estimated_cost', $preliminaryEstimate);
+
         $this->dbConnexion->execute();
 
-        return $service_request_id;
     }
 
     public function calculatePreliminaryEstimate($service_id, $vehicleModel) {
