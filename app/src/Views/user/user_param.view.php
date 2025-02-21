@@ -47,7 +47,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="/user/param" class="active">
+                                <a href="/user/params" class="active">
                                     <i class="fas fa-cog"></i> Paramètres
                                 </a>
                             </li>
@@ -56,12 +56,19 @@
                     <li class="navbar__item">
                         <a href="/logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
                     </li>
+                <?php else: ?>
+                    <li class="navbar__item">
+                        <a href="/login"><i class="fas fa-sign-in-alt"></i> Connexion</a>
+                    </li>
+                    <li class="navbar__item">
+                        <a href="/register"><i class="fas fa-user-plus"></i> Inscription</a>
+                    </li>
                 <?php endif; ?>
             </ul>
         </div>
     </nav>
 
-    <main class="settings-page">
+    <main class="settings-page" style="padding-top: 100px">
         <div class="container">
             <header class="settings-header">
                 <h1><i class="fas fa-cog"></i> Paramètres</h1>

@@ -49,4 +49,11 @@ class UserController extends AbstractController
       'evaluations' => $evaluations
     ], 'user');
   }
+
+  public function paramsRender(Request $request): Response
+  {
+    return $this->render('user_param', [
+      'title' => 'Paramètres',
+    ], 'user');
+  }
 }
