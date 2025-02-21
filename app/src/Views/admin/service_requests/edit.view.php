@@ -48,15 +48,15 @@
                 <div class="request-edit-header">
                     <div class="client-info">
                         <img src="https://ui-avatars.com/api/?name=<?= urlencode($user->name) ?>&background=random" 
-                             alt="<?= $user->name ?>">
+                             alt="<?= htmlspecialchars($user->name ?? '') ?>">
                         <div>
-                            <h2><?= $user->name ?></h2>
-                            <span class="email"><?= $user->email ?></span>
+                            <h2><?= htmlspecialchars($user->name ?? '') ?></h2>
+                            <span class="email"><?= htmlspecialchars($user->email ?? '') ?></span>
                         </div>
                     </div>
                 </div>
 
-                <form method="post" action="/admin/service_requests/edit/<?= $service_request->id ?>" class="admin-form">
+                <form method="post" action="/admin/service_requests/edit/<?= htmlspecialchars($service_request->id ?? '') ?>" class="admin-form">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="service_id">
@@ -65,9 +65,9 @@
                             </label>
                             <select id="service_id" name="service_id" required class="form-control">
                                 <?php foreach ($services as $service): ?>
-                                    <option value="<?= $service->id ?>" 
+                                    <option value="<?= htmlspecialchars($service->id ?? '') ?>" 
                                             <?= $service->id == $service_request->service_id ? 'selected' : '' ?>>
-                                        <?= $service->name ?>
+                                        <?= htmlspecialchars($service->name ?? '') ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
@@ -80,9 +80,9 @@
                             </label>
                             <select id="time_slot_id" name="time_slot_id" required class="form-control">
                                 <?php foreach ($timeSlots as $timeSlot): ?>
-                                    <option value="<?= $timeSlot->id ?>" 
+                                    <option value="<?= htmlspecialchars($timeSlot->id ?? '') ?>" 
                                             <?= $timeSlot->id == $service_request->time_slot_id ? 'selected' : '' ?>>
-                                        <?= $timeSlot->time_range ?>
+                                        <?= htmlspecialchars($timeSlot->time_range ?? '') ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
@@ -96,13 +96,13 @@
                             <div class="form-group">
                                 <label for="location_street">Rue</label>
                                 <input type="text" id="location_street" name="location_street" 
-                                       value="<?= $location->street ?>" required class="form-control">
+                                       value="<?= htmlspecialchars($location->street ?? '') ?>" required class="form-control">
                             </div>
 
                             <div class="form-group">
                                 <label for="location_address">Complément d'adresse</label>
                                 <input type="text" id="location_address" name="location_address" 
-                                       value="<?= $location->address ?>" class="form-control">
+                                       value="<?= htmlspecialchars($location->address ?? '') ?>" class="form-control">
                             </div>
                         </div>
 
@@ -110,13 +110,13 @@
                             <div class="form-group">
                                 <label for="location_city">Ville</label>
                                 <input type="text" id="location_city" name="location_city" 
-                                       value="<?= $location->city ?>" required class="form-control">
+                                       value="<?= htmlspecialchars($location->city ?? '') ?>" required class="form-control">
                             </div>
 
                             <div class="form-group">
                                 <label for="location_postal_code">Code postal</label>
                                 <input type="text" id="location_postal_code" name="location_postal_code" 
-                                       value="<?= $location->postal_code ?>" required class="form-control"
+                                       value="<?= htmlspecialchars($location->postal_code ?? '') ?>" required class="form-control"
                                        pattern="[0-9]{5}">
                             </div>
                         </div>
@@ -127,7 +127,7 @@
                             <i class="fas fa-comment-alt"></i>
                             Description
                         </label>
-                        <textarea id="description" name="description" class="form-control" rows="4"><?= $service_request->description ?></textarea>
+                        <textarea id="description" name="description" class="form-control" rows="4"><?= htmlspecialchars($service_request->description ?? '') ?></textarea>
                     </div>
 
                     <div class="technician-assignment-section">
@@ -141,21 +141,21 @@
                                 <div class="technician-badge">
                                     <i class="fas fa-user-check"></i>
                                     <span>Technicien actuel :</span>
-                                    <strong><?= $service_request->technician_name ?></strong>
+                                    <strong><?= htmlspecialchars($service_request->technician_name ?? '') ?></strong>
                                 </div>
                             </div>
                         <?php endif; ?>
 
-                        <form method="post" action="/admin/service_requests/assign_technician/<?= $service_request->id ?>" 
+                        <form method="post" action="/admin/service_requests/assign_technician/<?= htmlspecialchars($service_request->id ?? '') ?>" 
                               class="tech-assign-form">
                             <div class="select-wrapper">
                                 <i class="fas fa-wrench select-icon"></i>
                                 <select name="technician_id" class="form-control">
                                     <option value="">Choisir un nouveau technicien</option>
                                     <?php foreach ($technicians as $technician): ?>
-                                        <option value="<?= $technician->id ?>" 
+                                        <option value="<?= htmlspecialchars($technician->id ?? '') ?>" 
                                                 <?= $technician->id == $service_request->technician_id ? 'selected' : '' ?>>
-                                            <?= $technician->name ?>
+                                            <?= htmlspecialchars($technician->name ?? '') ?>
                                             <?php if (!$technician->available): ?> 
                                                 (Indisponible)
                                             <?php endif; ?>

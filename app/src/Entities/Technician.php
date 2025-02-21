@@ -23,18 +23,18 @@ class Technician
     }
 
     public function getById($id)
-    {
-        $this->dbConnexion->query("SELECT * FROM technicians WHERE id = :id");
-        $this->dbConnexion->bind(':id', $id);
+{
+    $this->dbConnexion->query("
+        SELECT t.*, 
+               l.city AS location
+        FROM technicians t
+        JOIN locations l ON t.location_id = l.id
+        WHERE t.id = :id
+    ");
+    $this->dbConnexion->bind(':id', $id);
 
-        $row = $this->dbConnexion->single();
-
-        if ($this->dbConnexion->rowCount() > 0) {
-            return $row;
-        } else {
-            return false;
-        }
-    }
+    return $this->dbConnexion->single();
+}
 
     public function create($data)
     {

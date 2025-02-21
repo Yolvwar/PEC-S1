@@ -150,5 +150,4 @@
     "methods" : ["GET"],
     "controller" : "UserController@paramsRender"
   }
-
 ]
