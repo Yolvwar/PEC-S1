@@ -25,6 +25,11 @@
     "controller": "LogoutController@process"
   },
   {
+    "path": "/opinion-feedback",
+    "methods": ["GET", "POST"],
+    "controller": "OpinionFeedbackController@process"
+  },
+  {
     "path": "/service_request",
     "methods": ["GET", "POST"],
     "controller": "ServiceRequestController@process"

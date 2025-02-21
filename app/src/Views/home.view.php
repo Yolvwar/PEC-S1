@@ -71,6 +71,9 @@ include_once __DIR__ . '/../Helpers/session_helper.php';
                     <li class="navbar__item">
                         <a href="/register"><i class="fas fa-user-plus"></i> Inscription</a>
                     </li>
+                    <li class="navbar__item">
+                    <a href="/opinion-feedback"><i class="fas fa-comments"></i> Avis et Retour d'Expérience</a>
+                  </li>
                 <?php endif; ?>
             </ul>
     </div>
@@ -136,6 +139,17 @@ include_once __DIR__ . '/../Helpers/session_helper.php';
       <?php endif; ?>
     </div>
   </section>
+  <section class="feedback-section">
+    <div class="container">
+      <h2>Votre avis compte !</h2>
+      <p>
+        Nous apprécions vos retours pour améliorer nos services.
+      </p>
+      <a href="/opinion-feedback" class="btn btn-feedback-inverse">
+        <i class="fas fa-comments"></i> Donnez votre avis
+      </a>
+    </div>
+</section>
 
   <script src="../../src/js/navbar.js"></script>
 </body>
