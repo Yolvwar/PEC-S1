@@ -1191,6 +1191,38 @@
   transform: scale(1.05);
 }
 
+.feedback-section {
+  background: var(--white);
+  color: var(--primary-color);
+  padding: 4rem 0;
+  text-align: center;
+}
+.feedback-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+.feedback-section p {
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+.feedback-section .btn-feedback-inverse {
+  background: var(--primary-color);
+  color: var(--white);
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.3s ease;
+}
+.feedback-section .btn-feedback-inverse:hover {
+  transform: scale(1.05);
+}
+.feedback-section .btn-feedback-inverse i {
+  margin-right: 5px;
+}
+
 .admin-layout {
   display: grid;
   grid-template-columns: 250px 1fr;

@@ -65,6 +65,9 @@ include_once __DIR__ . '/../../Helpers/session_helper.php';
                     <li class="navbar__item">
                         <a href="/register"><i class="fas fa-user-plus"></i> Inscription</a>
                     </li>
+                    <li class="navbar__item">
+                    <a href="/opinion-feedback"><i class="fas fa-comments"></i> Avis et Retour d'Expérience</a>
+                  </li>
                 <?php endif; ?>
             </ul>
       </div>
