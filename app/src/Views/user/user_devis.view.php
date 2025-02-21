@@ -31,6 +31,9 @@ include_once __DIR__ . '/../../Helpers/session_helper.php';
                     <a href="/service_request"><i class="fas fa-wrench"></i> Réparation</a>
                 </li>
                 <?php if(isset($_SESSION['user_id'])) : ?>
+                    <li class="navbar__item">
+                        <a href="/admin"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    </li>
                     <li class="navbar__item dropdown">
                         <a href="#" class="dropdown-toggle">
                             <i class="fas fa-user"></i> 
