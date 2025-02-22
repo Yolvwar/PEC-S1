@@ -52,7 +52,7 @@ include_once __DIR__ . '/../../Helpers/session_helper.php';
                                 </a>
                             </li>
                             <li>
-                                <a href="/user/params" class="active">
+                                <a href="/user/params">
                                     <i class="fas fa-cog"></i> Paramètres
                                 </a>
                             </li>
@@ -104,7 +104,7 @@ include_once __DIR__ . '/../../Helpers/session_helper.php';
                                 </span>
                             </div>
                             
-                            <!-- <div class="devis-card__content">
+                            <div class="devis-card__content">
                                 <div class="location-info">
                                     <i class="fas fa-map-marker-alt"></i>
                                     <p><?php echo $devis_item->location_street . ', ' . 
@@ -122,7 +122,11 @@ include_once __DIR__ . '/../../Helpers/session_helper.php';
                                     <i class="fas fa-clock"></i>
                                     <p><?php echo $devis_item->time_range; ?></p>
                                 </div>
-                            </div> -->
+
+                                <div class="vehicle-type">
+                                    <p><i class="fas fa-motorcycle"></i><?php echo ' ' . $devis_item->vehicle_type; ?></p>
+                                </div>
+                            </div>
 
                             <div class="devis-card__footer">
                                 <div class="estimated-cost">

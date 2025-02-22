@@ -24,30 +24,15 @@ class DevisController extends AbstractController
 
     public function process(Request $request): Response
     {
+        $devis = $this->devis->getDevisWithServiceRequestByUserId($_SESSION['user_id']);
 
         return $this->render('user_devis', [
             'title' => 'Créer un devis',
             'services' => $this->service->getAll(),
             'locations' => $this->location->getAll(),
-            'devis' => $this->devis->getDevisByUserId($_SESSION['user_id'])
+            'devis' => $devis
 
         ], 'user');
-    }
-
-    public function devis(Request $request): Response
-    {
-        $adressFrom = "Paris, France";
-        $adressTo = "Lyon, France";
-
-        $devis = $this->devis->getDistanceBetweenCities($adressFrom, $adressTo);
-
-        $test = $this->devis->calculateFinalEstimate($adressFrom, $adressTo);
-
-        return $this->render('devis', [
-            'title' => 'Créer un devis',
-            'devis' => $devis,
-            'test' => $test
-        ], 'test');
     }
     
 }

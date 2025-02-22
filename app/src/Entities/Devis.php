@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use App\Lib\Database\DatabaseConnexion;
+use Exception;
 
 class Devis
 {
@@ -29,8 +30,8 @@ class Devis
     }
 
     public function getDevisByUserId($user_id)
-{
-    $this->dbConnexion->query("
+    {
+        $this->dbConnexion->query("
         SELECT d.*, sr.description, s.name AS service_name, l.address AS location_address
         FROM devis d
         JOIN service_requests sr ON d.service_request_id = sr.id
@@ -38,9 +39,9 @@ class Devis
         JOIN locations l ON sr.location_id = l.id
         WHERE sr.user_id = :user_id
     ");
-    $this->dbConnexion->bind(':user_id', $user_id);
-    return $this->dbConnexion->resultSet();
-}
+        $this->dbConnexion->bind(':user_id', $user_id);
+        return $this->dbConnexion->resultSet();
+    }
 
     public function create($data)
     {
@@ -53,8 +54,9 @@ class Devis
         return $this->dbConnexion->execute();
     }
 
-    public function calculatePreliminaryEstimate($service_id, $vehicleModel) {
-        
+    public function calculatePreliminaryEstimate($service_id, $vehicleModel)
+    {
+
         $base_price = 75;
         $vehicle_multiplier = ($vehicleModel == 'moto') ? 1.3 : 1.0;
 
@@ -69,7 +71,8 @@ class Devis
         return $this->dbConnexion->execute();
     }
 
-    public function calculateFinalEstimate($adressFrom, $adressTo, $preliminaryEstimate) {
+    public function calculateFinalEstimate($adressFrom, $adressTo, $preliminaryEstimate)
+    {
 
         $coordinatesFrom = $this->getCoordinates($adressFrom);
         $coordinatesTo = $this->getCoordinates($adressTo);
@@ -84,52 +87,52 @@ class Devis
         $final_estimate = $preliminaryEstimate + $travel_cost;
 
         return round($final_estimate, 2);
-        
     }
 
-public function getCoordinates(string $city): ?array
-{
-    usleep(1000000); // 1 second pour la limite de con 
+    public function getCoordinates(string $city): ?array
+    {
+        usleep(1000000); // 1 second pour la limite de con 
 
-    $params = http_build_query([
-        'q' => $city,
-        'format' => 'json',
-        'addressdetails' => 1
-    ]);
+        $params = http_build_query([
+            'q' => $city,
+            'format' => 'json',
+            'addressdetails' => 1
+        ]);
 
-    $url = self::NOMINATIM_BASE_URL . '?' . $params;
+        $url = self::NOMINATIM_BASE_URL . '?' . $params;
 
-    $opts = [
-        'http' => [
-            'method' => 'GET',
-            'header' => [
-                'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-                'Accept: application/json'
+        $opts = [
+            'http' => [
+                'method' => 'GET',
+                'header' => [
+                    'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                    'Accept: application/json'
+                ]
             ]
-        ]
-    ];
+        ];
 
-    $context = stream_context_create($opts);
-    $response = file_get_contents($url, false, $context);
+        $context = stream_context_create($opts);
+        $response = file_get_contents($url, false, $context);
 
-    if ($response === false) {
-        var_dump(error_get_last());
-        return null;
+        if ($response === false) {
+            var_dump(error_get_last());
+            return null;
+        }
+
+        $data = json_decode($response, true);
+
+        if (empty($data)) {
+            return null;
+        }
+
+        return [
+            'lat' => (float)$data[0]['lat'],
+            'lon' => (float)$data[0]['lon']
+        ];
     }
 
-    $data = json_decode($response, true);
-
-    if (empty($data)) {
-        return null;
-    }
-
-    return [
-        'lat' => (float)$data[0]['lat'],
-        'lon' => (float)$data[0]['lon']
-    ];
-}
-
-    public function calculateDistance(array $coordinatesFrom, array $coordinatesTo) {
+    public function calculateDistance(array $coordinatesFrom, array $coordinatesTo)
+    {
 
         $lat1 = deg2rad($coordinatesFrom['lat']);
         $lon1 = deg2rad($coordinatesFrom['lon']);
@@ -145,8 +148,9 @@ public function getCoordinates(string $city): ?array
         return self::EARTH_RADIUS * $c;
     }
 
-    public function getDistanceBetweenCities(string $cityFrom, string $cityTo) {
-        try{
+    public function getDistanceBetweenCities(string $cityFrom, string $cityTo)
+    {
+        try {
             $coordinatesFrom = $this->getCoordinates($cityFrom);
             $coordinatesTo = $this->getCoordinates($cityTo);
 
@@ -177,13 +181,29 @@ public function getCoordinates(string $city): ?array
         }
     }
 
-public function getPreliminaryEstimateByServiceRequestId($service_request_id)
-{
-    $this->dbConnexion->query("SELECT estimated_cost FROM devis WHERE service_request_id = :service_request_id");
-    $this->dbConnexion->bind(':service_request_id', $service_request_id);
-    $result = $this->dbConnexion->single();
+    public function getPreliminaryEstimateByServiceRequestId($service_request_id)
+    {
+        $this->dbConnexion->query("SELECT estimated_cost FROM devis WHERE service_request_id = :service_request_id");
+        $this->dbConnexion->bind(':service_request_id', $service_request_id);
+        $result = $this->dbConnexion->single();
 
-    return $result->estimated_cost;
-}
-}
+        return $result->estimated_cost;
+    }
 
+    public function getDevisWithServiceRequestByUserId($user_id)
+    {
+        $this->dbConnexion->query("
+        SELECT d.*, sr.description, sr.vehicle_type, sr.created_at AS service_request_date, 
+               s.name AS service_name, l.street AS location_street, l.address AS location_address, 
+               l.city AS location_city, l.postal_code AS location_postal_code, ts.time_range
+        FROM devis d
+        JOIN service_requests sr ON d.service_request_id = sr.id
+        JOIN services s ON sr.service_id = s.id
+        JOIN locations l ON sr.location_id = l.id
+        JOIN time_slots ts ON sr.time_slot_id = ts.id
+        WHERE sr.user_id = :user_id
+    ");
+        $this->dbConnexion->bind(':user_id', $user_id);
+        return $this->dbConnexion->resultSet();
+    }
+}

@@ -6,6 +6,7 @@ use App\Lib\Http\Response;
 use App\Lib\Controllers\AbstractController;
 require_once __DIR__ . '/../Helpers/session_helper.php';
 
+// if i speak du controller useless la fonctionnalité fonctionne meme pas 
 class OpinionFeedbackController extends AbstractController {
     public function process(Request $request): Response {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

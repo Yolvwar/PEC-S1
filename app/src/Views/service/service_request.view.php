@@ -3,27 +3,27 @@ include_once __DIR__ . '/../../Helpers/session_helper.php';
 ?>
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Demande de réparation - Doc 2 Wheels</title>
-    <link rel="stylesheet" href="../../../sass/dist/css/main.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-  </head>
-  <body>
+    <link rel="stylesheet" href="../../../sass/dist/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
     <nav class="navbar">
-      <div class="navbar__container">
-      <a href="/home" class="navbar__logo">
-        <img src="/sass/images/Doc2Wheels-logo-1.png" alt="Doc 2 Wheels Logo" style="height: 65px;">
-      </a>
+        <div class="navbar__container">
+            <a href="/home" class="navbar__logo">
+                <img src="/sass/images/Doc2Wheels-logo-1.png" alt="Doc 2 Wheels Logo" style="height: 65px;">
+            </a>
 
-        <button class="navbar__burger">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+            <button class="navbar__burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
 
-        <ul class="navbar__menu">
+            <ul class="navbar__menu">
                 <li class="navbar__item">
                     <a href="/home"><i class="fas fa-home"></i> Accueil</a>
                 </li>
@@ -31,7 +31,7 @@ include_once __DIR__ . '/../../Helpers/session_helper.php';
                     <a href="/service_request"><i class="fas fa-wrench"></i> Réparation</a>
                 </li>
                 <?php if(isset($_SESSION['user_id'])) : ?>
-                  <li class="navbar__item">
+                    <li class="navbar__item">
                         <a href="/admin"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
                     </li>
                     <li class="navbar__item dropdown">
@@ -69,100 +69,106 @@ include_once __DIR__ . '/../../Helpers/session_helper.php';
                         <a href="/register"><i class="fas fa-user-plus"></i> Inscription</a>
                     </li>
                     <li class="navbar__item">
-                    <a href="/opinion-feedback"><i class="fas fa-comments"></i> Avis et Retour d'Expérience</a>
-                  </li>
+                        <a href="/opinion-feedback"><i class="fas fa-comments"></i> Avis et Retour d'Expérience</a>
+                    </li>
                 <?php endif; ?>
             </ul>
-      </div>
+        </div>
     </nav>
 
     <div class="container" style="padding-top: 80px">
-  <?php flash('service_request') ?>
-  <?php flash('evaluation') ?>
+        <?php flash('service_request') ?>
+        <?php flash('evaluation') ?>
 
-  <form class="repair-form" method="post" action="/service_request">
-    <input type="hidden" name="type" value="create_service_request">
-    
-    <div class="auth-header">
-      <h2>Demande de réparation</h2>
-      <p>Choisissez le type de service dont vous avez besoin</p>
+        <form class="repair-form" method="post" action="/service_request">
+            <input type="hidden" name="type" value="create_service_request">
+            
+            <div class="auth-header">
+                <h2>Demande de réparation</h2>
+                <p>Choisissez le type de service dont vous avez besoin</p>
+            </div>
+
+            <div class="form-content">
+                <div class="service-options">
+                    <?php foreach ($serviceTypes as $serviceType): ?>
+                        <div class="service-card">
+                            <i class="fas fa-tools"></i>
+                            <h3><?php echo $serviceType->name; ?></h3>
+                            <input type="radio" name="service_id" value="<?php echo $serviceType->id; ?>" required />
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+
+                <div class="form-fields">
+                    <div class="form-group">
+                        <label for="vehicle_type">
+                            <i class="fas fa-motorcycle"></i>
+                            Type de véhicule
+                        </label>
+                        <select name="vehicle_type" id="vehicle_type" required>
+                            <option value="moto">Moto</option>
+                            <option value="scooter">Scooter</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location_street">
+                            <i class="fas fa-road"></i>
+                            Rue
+                        </label>
+                        <input type="text" name="location_street" id="location_street" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location_address">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Adresse complémentaire
+                        </label>
+                        <input type="text" name="location_address" id="location_address" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location_city">
+                            <i class="fas fa-city"></i>
+                            Ville
+                        </label>
+                        <input type="text" name="location_city" id="location_city" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location_postal_code">
+                            <i class="fas fa-envelope"></i>
+                            Code Postal
+                        </label>
+                        <input type="text" name="location_postal_code" id="location_postal_code" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="time_slot_id">
+                            <i class="fas fa-clock"></i>
+                            Plage horaire disponible
+                        </label>
+                        <select name="time_slot_id" id="time_slot_id">
+                            <?php foreach ($timeSlots as $timeSlot): ?>
+                                <option value="<?php echo $timeSlot->id; ?>"><?php echo $timeSlot->time_range; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">
+                            <i class="fas fa-pencil-alt"></i>
+                            Description
+                        </label>
+                        <textarea name="description" id="description" placeholder="Décrivez votre demande..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fas fa-calculator"></i> Demander un devis
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
-
-    <div class="service-options">
-      <?php foreach ($serviceTypes as $serviceType): ?>
-        <div class="service-card">
-          <i class="fas fa-tools"></i>
-          <h3><?php echo $serviceType->name; ?></h3>
-          <input type="radio" name="service_id" value="<?php echo $serviceType->id; ?>" required />
-        </div>
-      <?php endforeach; ?>
-    </div>
-
-    <div class="form-group">
-      <label for="vehicle_type">
-        <i class="fas fa-motorcycle"></i>
-        Type de véhicule
-      </label>
-      <select name="vehicle_type" id="vehicle_type" required>
-        <option value="moto">Moto</option>
-        <option value="scooter">Scooter</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="location_street">
-        <i class="fas fa-road"></i>
-        Rue
-      </label>
-      <input type="text" name="location_street" id="location_street" required>
-    </div>
-
-    <div class="form-group">
-      <label for="location_address">
-        <i class="fas fa-map-marker-alt"></i>
-        Adresse complémentaire
-      </label>
-      <input type="text" name="location_address" id="location_address" required>
-    </div>
-
-    <div class="form-group">
-      <label for="location_city">
-        <i class="fas fa-city"></i>
-        Ville
-      </label>
-      <input type="text" name="location_city" id="location_city" required>
-    </div>
-
-    <div class="form-group">
-      <label for="location_postal_code">
-        <i class="fas fa-envelope"></i>
-        Code Postal
-      </label>
-      <input type="text" name="location_postal_code" id="location_postal_code" required>
-    </div>
-
-    <div class="form-group">
-      <label for="time_slot_id">
-        <i class="fas fa-clock"></i>
-        Plage horaire disponible
-      </label>
-      <select name="time_slot_id" id="time_slot_id">
-        <?php foreach ($timeSlots as $timeSlot): ?>
-          <option value="<?php echo $timeSlot->id; ?>"><?php echo $timeSlot->time_range; ?></option>
-        <?php endforeach; ?>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="description">
-        <i class="fas fa-pencil-alt"></i>
-        Description
-      </label>
-      <textarea name="description" id="description" placeholder="Décrivez votre demande..."></textarea>
-    </div>
-
-    <button type="submit" class="btn btn-primary btn-block">
-      <i class="fas fa-calculator"></i> Demander un devis
-    </button>
-  </form>
-</div>
+</body>
+</html>

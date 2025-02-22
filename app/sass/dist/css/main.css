@@ -1429,46 +1429,6 @@
   font-size: 1.25rem;
 }
 
-.admin-dashboard {
-  padding: 2rem;
-}
-
-.dashboard-metrics {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-}
-
-.metric {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 1rem;
-  flex: 1 1 calc(33.333% - 2rem);
-  text-align: center;
-}
-
-.metric h2 {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.metric p {
-  font-size: 1.2rem;
-  margin: 0;
-}
-
-.metric ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.metric ul li {
-  font-size: 1rem;
-  margin: 0.5rem 0;
-}
-
 .table-responsive {
   overflow-x: auto;
 }
@@ -3149,6 +3109,54 @@ textarea.form-control:focus {
   color: var(--email-text-muted);
   font-size: 0.9rem;
   margin: 0;
+}
+
+.account-activation-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  z-index: 1000;
+}
+.account-activation-popup .header {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #007bff;
+}
+.account-activation-popup .message {
+  font-size: 1rem;
+  color: #212529;
+  margin-bottom: 1.5rem;
+}
+.account-activation-popup .btn {
+  display: inline-block;
+  background: #007bff;
+  color: white;
+  text-decoration: none;
+  padding: 0.75rem 2rem;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+.account-activation-popup .btn:hover {
+  background: #0056b3;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
 }
 
 /*# sourceMappingURL=main.css.map */
