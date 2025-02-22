@@ -145,7 +145,7 @@
                     </div>
                     <div class="metric">
                         <h2>Satisfaction client</h2>
-                        <p>Moyenne : <?= round($customerSatisfaction, 2) ?>
+                        <p>Moyenne : <?= $customerSatisfaction !== null ? round($customerSatisfaction, 2) : 'N/A' ?>
                             <i class="fas fa-star" style="color: gold;"></i>
                         </p>
                     </div>
