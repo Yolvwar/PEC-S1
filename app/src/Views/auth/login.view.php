@@ -1,5 +1,7 @@
 <?php
 include_once __DIR__ . '/../../Helpers/session_helper.php';
+flash('register');
+flash('login');
 ?>
 <!DOCTYPE html>
 <html lang="fr">

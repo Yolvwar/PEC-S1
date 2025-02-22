@@ -1,5 +1,8 @@
 RewriteEngine on
 
+# Sa redirige la route / vers /home
+RewriteRule ^$ /home [R=301,L]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 

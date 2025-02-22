@@ -7,6 +7,12 @@ use App\Lib\Http\Request;
 class Router
 {
     public function route(Request $request): ?Response {
+
+        if ($request->getPath() === '/') {
+            header('Location: /home', true, 301);
+            exit();
+        }
+
         $routesByUri = self::getRoutesFromUriRequest($request);
 
         if(empty($routesByUri)) {

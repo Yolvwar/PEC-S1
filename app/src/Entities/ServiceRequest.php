@@ -1,7 +1,10 @@
 <?php
 
 namespace App\Entities;
+
 use App\Entities\Devis;
+use App\Entities\Location;
+use App\Entities\Technician;
 
 use App\Lib\Database\DatabaseConnexion;
 
@@ -9,12 +12,13 @@ class ServiceRequest
 {
     private $dbConnexion;
     private $location;
+    private $devis;
 
     public function __construct()
     {
         $this->dbConnexion = new DatabaseConnexion();
         $this->location = new Location();
-
+        $this->devis = new Devis();
     }
 
     public function getAll()
@@ -43,7 +47,7 @@ class ServiceRequest
     }
 
     public function create($data)
-    {   
+    {
         $location_id = $this->location->createAndReturnId(
             $data['location_street'],
             $data['location_address'],
@@ -62,17 +66,24 @@ class ServiceRequest
         $this->dbConnexion->bind(':time_slot_id', $data['time_slot_id']);
         $this->dbConnexion->bind(':vehicle_type', $data['vehicle_type']);
         $this->dbConnexion->bind(':description', $data['description']);
-        
-        $preliminaryEstimate = $this->calculatePreliminaryEstimate($data['service_id'], $data['vehicle_type']);
-
         $this->dbConnexion->execute();
 
+        $preliminaryEstimate = $this->calculatePreliminaryEstimate($data['service_id'], $data['vehicle_type']);
+        $service_request_id = $this->getLastInsertId();
+
+        $devis_data = [
+            'service_request_id' => $service_request_id,
+            'preliminary_estimate' => $preliminaryEstimate
+        ];
+
+        $this->devis->create($devis_data);
     }
 
-    public function calculatePreliminaryEstimate($service_id, $vehicleModel) {
+    public function calculatePreliminaryEstimate($service_id, $vehicleModel)
+    {
         $base_price = 75;
         $vehicle_multiplier = ($vehicleModel == 'moto') ? 1.3 : 1.0;
-    
+
         return $base_price * $vehicle_multiplier;
     }
 
@@ -97,7 +108,7 @@ class ServiceRequest
             WHERE sr.id = :id
         ");
         $this->dbConnexion->bind(':id', $id);
-    
+
         return $this->dbConnexion->single();
     }
 
@@ -120,7 +131,7 @@ class ServiceRequest
             WHERE sr.user_id = :user_id
         ");
         $this->dbConnexion->bind(':user_id', $user_id);
-    
+
         return $this->dbConnexion->resultSet();
     }
 
@@ -132,7 +143,8 @@ class ServiceRequest
         return $this->dbConnexion->execute();
     }
 
-    public function update($id, $data) {
+    public function update($id, $data)
+    {
 
         $location_id = $this->location->createAndReturnId(
             $data['location_street'],
@@ -140,7 +152,7 @@ class ServiceRequest
             $data['location_city'],
             $data['location_postal_code']
         );
-        
+
         $this->dbConnexion->query(
             "UPDATE service_requests SET service_id = :service_id, location_id = :location_id, time_slot_id = :time_slot_id, description = :description WHERE id = :id"
         );
@@ -198,7 +210,7 @@ class ServiceRequest
 
         $location_requester = (new Location())->getById($service_request->location_id);
         $location_technician = (new Location())->getById($technician->location_id);
-        
+
         $final_estimate = $devis->calculateFinalEstimate($location_requester->city, $location_technician->city);
         return $devis->updateEstimate($service_request_id, $final_estimate);
     }
@@ -209,90 +221,90 @@ class ServiceRequest
     }
 
     public function getEvaluationsByServiceRequestId($service_request_id)
-  {
-    $this->dbConnexion->query("SELECT * FROM evaluations WHERE service_request_id = :service_request_id");
-    $this->dbConnexion->bind(':service_request_id', $service_request_id);
+    {
+        $this->dbConnexion->query("SELECT * FROM evaluations WHERE service_request_id = :service_request_id");
+        $this->dbConnexion->bind(':service_request_id', $service_request_id);
 
-    return $this->dbConnexion->resultSet();
-  }
+        return $this->dbConnexion->resultSet();
+    }
 
-  public function getServiceRequestById($id)
-  {
-    $this->dbConnexion->query("SELECT * FROM service_requests WHERE id = :id");
-    $this->dbConnexion->bind(':id', $id);
+    public function getServiceRequestById($id)
+    {
+        $this->dbConnexion->query("SELECT * FROM service_requests WHERE id = :id");
+        $this->dbConnexion->bind(':id', $id);
 
-    return $this->dbConnexion->single();
-  }
+        return $this->dbConnexion->single();
+    }
 
-  public function countAll()
-{
-    $this->dbConnexion->query("SELECT COUNT(*) as count FROM service_requests");
-    return $this->dbConnexion->single()->count;
-}
+    public function countAll()
+    {
+        $this->dbConnexion->query("SELECT COUNT(*) as count FROM service_requests");
+        return $this->dbConnexion->single()->count;
+    }
 
-public function calculateCompletedRate()
-{
-    $this->dbConnexion->query("
+    public function calculateCompletedRate()
+    {
+        $this->dbConnexion->query("
         SELECT (COUNT(*) / (SELECT COUNT(*) FROM service_requests)) * 100 as return_rate 
         FROM service_requests 
         WHERE completed = '1'
     ");
-    return $this->dbConnexion->single()->return_rate;
-}
+        return $this->dbConnexion->single()->return_rate;
+    }
 
-public function calculateRevenue()
-{
-    $this->dbConnexion->query("SELECT SUM(estimated_cost) as revenue FROM devis");
-    return $this->dbConnexion->single()->revenue;
-}
+    public function calculateRevenue()
+    {
+        $this->dbConnexion->query("SELECT SUM(estimated_cost) as revenue FROM devis");
+        return $this->dbConnexion->single()->revenue;
+    }
 
-public function calculateRevenueByTechnician()
-{
-    $this->dbConnexion->query("
+    public function calculateRevenueByTechnician()
+    {
+        $this->dbConnexion->query("
         SELECT t.name, SUM(d.estimated_cost) as revenue 
         FROM devis d
         JOIN service_requests sr ON d.service_request_id = sr.id
         JOIN technicians t ON sr.technician_id = t.id
         GROUP BY t.name
     ");
-    return $this->dbConnexion->resultSet();
-}
+        return $this->dbConnexion->resultSet();
+    }
 
-public function countPending()
-{
-    $this->dbConnexion->query("SELECT COUNT(*) as count FROM service_requests WHERE completed = '0'");
-    return $this->dbConnexion->single()->count;
-}
+    public function countPending()
+    {
+        $this->dbConnexion->query("SELECT COUNT(*) as count FROM service_requests WHERE completed = '0'");
+        return $this->dbConnexion->single()->count;
+    }
 
-public function calculateRevenueByPeriod($startDate, $endDate)
-{
-    $this->dbConnexion->query("
+    public function calculateRevenueByPeriod($startDate, $endDate)
+    {
+        $this->dbConnexion->query("
         SELECT SUM(estimated_cost) as revenue 
         FROM devis 
         WHERE created_at BETWEEN :start_date AND :end_date
     ");
-    $this->dbConnexion->bind(':start_date', $startDate);
-    $this->dbConnexion->bind(':end_date', $endDate);
-    return $this->dbConnexion->single()->revenue;
-}
+        $this->dbConnexion->bind(':start_date', $startDate);
+        $this->dbConnexion->bind(':end_date', $endDate);
+        return $this->dbConnexion->single()->revenue;
+    }
 
-public function getInterventionsDataByMonth()
-{
-    $this->dbConnexion->query("
+    public function getInterventionsDataByMonth()
+    {
+        $this->dbConnexion->query("
         SELECT MONTH(created_at) as month, COUNT(*) as count 
         FROM service_requests 
         GROUP BY MONTH(created_at)
     ");
-    return $this->dbConnexion->resultSet();
-}
+        return $this->dbConnexion->resultSet();
+    }
 
-public function getRevenueDataByMonth()
-{
-    $this->dbConnexion->query("
+    public function getRevenueDataByMonth()
+    {
+        $this->dbConnexion->query("
         SELECT MONTH(created_at) as month, SUM(estimated_cost) as revenue 
         FROM devis 
         GROUP BY MONTH(created_at)
     ");
-    return $this->dbConnexion->resultSet();
-}
+        return $this->dbConnexion->resultSet();
+    }
 }
