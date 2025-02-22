@@ -63,7 +63,7 @@ CREATE TABLE technicians (
 
 INSERT INTO technicians (name, email, speciality, phone, status, experience, location_id) VALUES
 ('Technician 1', 'tech1@example.com', 'Carroserie', '1234567890', 'available', 5, 1),
-('Technician 2', 'tech2@example.com', 'Électrique', '0987654321', 'busy', 3, 2);
+('Technician 2', 'tech2@example.com', 'Électrique', '0987654321', 'busy', 3, 2),
 ('Technician 3', 'tech3@example.com', 'Mécanique', '0987654321', 'offline', 4, 2);
 
 
@@ -85,13 +85,13 @@ CREATE TABLE service_requests (
     FOREIGN KEY (technician_id) REFERENCES technicians(id)
 );
 
-INSERT INTO service_requests (user_id, service_id, location_id, time_slot_id, description, vehicle_type) VALUES
-(1, 1, 1, 1, 'Réparation de la machine à laver.', 'scooter'),
-(1, 2, 2, 2, 'Entretien annuel du système de chauffage.', 'moto'),
-(1, 3, 3, 3, 'Dépannage d\'urgence pour une fuite d\'eau.', 'scooter'),
-(2, 1, 1, 1, 'Réparation de la machine à laver.', 'scooter'),
-(2, 2, 2, 2, 'Entretien annuel du système de chauffage.', 'moto'),
-(2, 3, 3, 3, 'Dépannage d\'urgence pour une fuite d\'eau.', 'scooter');
+INSERT INTO service_requests (user_id, service_id, location_id, time_slot_id, technician_id, description, completed, vehicle_type) VALUES
+(1, 1, 1, 1, 1, 'Réparation de la machine à laver.', 1, 'scooter'),
+(1, 2, 2, 2, 2, 'Entretien annuel du système de chauffage.', 0, 'moto'),
+(1, 3, 3, 3, 3, 'Dépannage d\'urgence pour une fuite d\'eau.', 0, 'scooter'),
+(2, 1, 1, 1, NULL, 'Réparation de la machine à laver.', 0, 'scooter'),
+(2, 2, 2, 2, NULL, 'Entretien annuel du système de chauffage.', 0, 'moto'),
+(2, 3, 3, 3, NULL, 'Dépannage d\'urgence pour une fuite d\'eau.', 0, 'scooter');
 
 CREATE TABLE evaluations (
     id INT AUTO_INCREMENT PRIMARY KEY,
