@@ -143,7 +143,7 @@ docker exec -it php-app-db mysql -u user -p
 3. Rentrer dans la database créer avec le docker :
 
 ```bash
-user db;
+use db;
 ```
 
 4. Copier le fichier init_database.sql du projet et le coller dans la db pour la créer.
