@@ -140,11 +140,13 @@ Pour lancer le projet en local, suivez les étapes suivantes :
 docker exec -it php-app-db mysql -u user -p
 ```
 
-3. Lancer le script init_database
+3. Rentrer dans la database créer avec le docker :
 
 ```bash
-mysql -u root -p < /app/init_database.sql
+user db;
 ```
+
+4. Copier le fichier init_database.sql du projet et le coller dans la db pour la créer.
 
 ## Commits Autosignés avec GPG
 
